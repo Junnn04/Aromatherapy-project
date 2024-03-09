@@ -24,6 +24,10 @@ const routes = [
         component: () => import('../views/CartView.vue'),
       },
       {
+        path: 'Articles',
+        component: () => import('../views/ArticlesView.vue'),
+      },
+      {
         path: 'login',
         component: () => import('../views/LoginView.vue'),
       },
@@ -31,15 +35,23 @@ const routes = [
   },
   {
     path: '/admin',
-    component: () => import('../views/dashboard/DashboardView.vue'),
+    component: () => import('../views/dashboard/AdminDashboard.vue'),
     children: [
       {
         path: 'products',
-        component: () => import('../views/dashboard/ProductsView.vue'),
+        component: () => import('../views/dashboard/AdminProducts.vue'),
       },
       {
-        path: 'order',
-        component: () => import('../views/dashboard/OrderView.vue'),
+        path: 'orders',
+        component: () => import('../views/dashboard/AdminOrders.vue'),
+      },
+      {
+        path: 'coupons',
+        component: () => import('../views/dashboard/AdminCoupons.vue'),
+      },
+      {
+        path: 'article',
+        component: () => import('../views/dashboard/AdminArticle.vue'),
       },
     ],
   },
