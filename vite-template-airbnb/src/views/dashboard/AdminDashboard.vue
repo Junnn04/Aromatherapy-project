@@ -1,9 +1,9 @@
 <template>
-  <div class="container-xxl">
+  <div class="container" >
     <h2  class="row" style="background-color: #90a4ae">香氛心療坊</h2>
     <div>
       <div class="row">
-      <div class="col-md-2 " style="background-color: #90a4ae; position: relative">
+      <div class="col-md-2 " style="position: relative">
         <nav class="navbar navbar-expand-lg navbar-light h-100">
               <!-- 导航项 -->
               <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
@@ -13,10 +13,10 @@
                     <RouterLink to="/admin/products">產品列表</RouterLink>
                   </li>
                   <li class="nav-item" style="padding-bottom: 20px">
-                    <RouterLink to="/admin/order">訂單管理</RouterLink>
+                    <RouterLink to="/admin/orders">訂單管理</RouterLink>
                   </li>
                   <li class="nav-item" style="padding-bottom: 20px">
-                    <RouterLink to="/admin/voucher">優惠卷管理</RouterLink>
+                    <RouterLink to="/admin/coupons">優惠卷管理</RouterLink>
                   </li>
                   <li class="nav-item" style="padding-bottom: 20px">
                     <RouterLink to="/admin/article">文章管理</RouterLink>
