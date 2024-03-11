@@ -1,1 +1,0 @@
-import{_ as o,c as t,b as n,F as c,a as r,o as s,r as a}from"./index-IOUEW9qf.js";const _={},l=r("h2",null,"後",-1);function i(m,d){const e=a("RouterView");return s(),t(c,null,[l,n(e)],64)}const f=o(_,[["render",i]]);export{f as default};
