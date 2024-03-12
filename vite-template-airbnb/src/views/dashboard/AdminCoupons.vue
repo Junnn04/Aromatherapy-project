@@ -180,6 +180,7 @@ export default {
     },
   },
   mounted() {
+    this.getCoupons();
     // 啟用productModal
 
     this.modalDel = new Modal(this.$refs.delCouponsModal);

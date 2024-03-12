@@ -182,8 +182,8 @@ export default {
     },
   },
   mounted() {
+    this.getArticle();
     // 啟用productModal
-
     this.modalDel = new Modal(this.$refs.delProductModal);
   },
   components: {

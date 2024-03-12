@@ -66,7 +66,7 @@ export default {
       } else {
         alert('您尚未登入。');
         this.$router.push('/login');
-        console.log(token, this.url);
+        console.log(token);
       }
     },
     signout() {
