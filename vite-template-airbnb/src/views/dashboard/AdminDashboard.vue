@@ -1,10 +1,9 @@
 <template>
-  <div class="container" >
-    <h2  class="row" style="background-color: #90a4ae">香氛心療坊</h2>
     <div>
+      <h2  class="row" >香氛心療坊</h2>
       <div class="row">
       <div class="col-md-2 " style="position: relative">
-        <nav class="navbar navbar-expand-lg navbar-light h-100">
+        <nav class="navbar navbar-expand-lg navbar-light h-100"  style="background-color: #90a4ae">
               <!-- 导航项 -->
               <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav flex-column "
@@ -24,16 +23,18 @@
                   <li class="nav-item" style="padding-bottom: 20px">
                     <RouterLink to="/">回到前台</RouterLink>
                   </li>
+                  <li class="nav-item" style="padding-bottom: 20px">
+                    <a href="#" @click.prevent="signout">登出</a>
+                  </li>
                 </ul>
               </div>
             </nav>
       </div>
       <div class="col" style="margin-top: 100px">
-        <router-view></router-view>
+        <RouterView v-if="checkSuccess"></RouterView>
           </div>
       </div>
     </div>
-  </div>
   </template>
 
 <script>
@@ -42,22 +43,46 @@ import axios from 'axios';
 const { VITE_URL } = import.meta.env;
 
 export default {
+  data() {
+    return {
+      checkSuccess: false,
+    };
+  },
   methods: {
     checkAdmin() {
-      const url = `${VITE_URL}/api/user/check`;
+      const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+      if (token) {
+        // Axios 預設值
+        axios.defaults.headers.common.Authorization = `${token}`;
+        const url = `${VITE_URL}/api/user/check`;
+        axios.post(url, { api_token: this.token })
+          .then(() => {
+            this.checkSuccess = true;
+          })
+          .catch((err) => {
+            alert(err.response.data.message);
+            this.$router.push('/login');
+          });
+      } else {
+        alert('您尚未登入。');
+        this.$router.push('/login');
+        console.log(token, this.url);
+      }
+    },
+    signout() {
+      const url = `${VITE_URL}/logout`;
       axios.post(url)
-        .then((res) => {
-          console.log('驗證成功:', res.success);
+        .then(() => {
+          document.cookie = 'hexToken=;expires=;';
+          alert('token 已清除');
+          this.$router.push('/login');
         })
         .catch((err) => {
-          alert(err.message);
+          alert(err.response.data.message);
         });
     },
   },
   mounted() {
-    // 取出 Token
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
-    axios.defaults.headers.common.Authorization = token;
     this.checkAdmin();
   },
 };

@@ -100,18 +100,6 @@ export default {
     };
   },
   methods: {
-    checkAdmin() {
-      const url = `${VITE_URL}/api/user/check`;
-      axios.post(url)
-        .then(() => {
-          this.getCoupons();
-        })
-        .catch((err) => {
-          console.log(err);
-          alert(err.message);
-          window.location = 'login.html';
-        });
-    },
     // 取得產品列表
     getCoupons(page = 1) { // 參數預設值
       const url = `${VITE_URL}/api/${VITE_PATH}/admin/coupons?page=${page}`;
@@ -192,12 +180,6 @@ export default {
     },
   },
   mounted() {
-    // 取出token
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
-    axios.defaults.headers.common.Authorization = token;
-
-    this.checkAdmin();
-
     // 啟用productModal
 
     this.modalDel = new Modal(this.$refs.delCouponsModal);
