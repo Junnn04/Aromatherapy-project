@@ -1,1 +1,0 @@
-import{_ as o,c as t,d as c,F as n,b as r,o as s,r as a}from"./index-SlvrNoUn.js";const _={},l=r("h2",null,"產品列表",-1);function i(d,m){const e=a("RouterView");return s(),t(n,null,[l,c(e)],64)}const f=o(_,[["render",i]]);export{f as default};
