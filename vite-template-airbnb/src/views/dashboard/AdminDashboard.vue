@@ -1,35 +1,40 @@
 <template>
-      <div class="col-md-2 " style="position: relative">
-        <nav class="navbar navbar-expand-lg navbar-light h-100"  style="background-color: #90a4ae">
-              <!-- 导航项 -->
-              <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <ul class="navbar-nav flex-column "
-                style="margin-top: 70px; position: absolute; top: 10px">
-                  <li class="nav-item active" style="padding-bottom: 20px">
-                    <RouterLink to="/admin/products">產品列表</RouterLink>
-                  </li>
-                  <li class="nav-item" style="padding-bottom: 20px">
-                    <RouterLink to="/admin/orders">訂單管理</RouterLink>
-                  </li>
-                  <li class="nav-item" style="padding-bottom: 20px">
-                    <RouterLink to="/admin/coupons">優惠卷管理</RouterLink>
-                  </li>
-                  <li class="nav-item" style="padding-bottom: 20px">
-                    <RouterLink to="/admin/article">文章管理</RouterLink>
-                  </li>
-                  <li class="nav-item" style="padding-bottom: 20px">
-                    <RouterLink to="/">回到前台</RouterLink>
-                  </li>
-                  <li class="nav-item" style="padding-bottom: 20px">
-                    <a href="#" @click.prevent="signout">登出</a>
-                  </li>
-                </ul>
+  <div class="row">
+      <div class="col-md-2">
+          <div class="text-white p-3" style="height: 900px; background: #8d6e63;">
+            <h2 class="text-center">Aroma</h2>
+              <nav class="navbar navbar-expand-lg navbar-light">
+                    <!-- 导航项 -->
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                      <ul class="navbar-nav flex-column "
+                      style="margin-top: 70px; position: absolute; top: 10px">
+                        <li class="nav-item active" style="padding-bottom: 20px ;">
+                          <RouterLink to="/admin/products" style="color: #d7ccc8;">產品列表</RouterLink>
+                        </li>
+                        <li class="nav-item" style="padding-bottom: 20px">
+                          <RouterLink to="/admin/orders" style="color: #d7ccc8;">訂單管理</RouterLink>
+                        </li>
+                        <li class="nav-item" style="padding-bottom: 20px">
+                          <RouterLink to="/admin/coupons" style="color: #d7ccc8;">優惠卷管理</RouterLink>
+                        </li>
+                        <li class="nav-item" style="padding-bottom: 20px">
+                          <RouterLink to="/admin/article" style="color: #d7ccc8;">文章管理</RouterLink>
+                        </li>
+                        <li class="nav-item" style="padding-bottom: 20px">
+                          <RouterLink to="/" style="color: #d7ccc8;">回到前台</RouterLink>
+                        </li>
+                        <li class="nav-item" style="padding-bottom: 20px">
+                          <a href="#" @click.prevent="signout" style="color: #d7ccc8;">登出</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </nav>
               </div>
-            </nav>
+       </div>
+      <div class="col">
+          <RouterView v-if="checkSuccess"></RouterView>
       </div>
-      <div class="col" style="margin-top: 100px">
-        <RouterView v-if="checkSuccess"></RouterView>
-          </div>
+  </div>
   </template>
 
 <script>
