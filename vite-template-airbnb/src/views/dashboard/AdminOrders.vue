@@ -1,9 +1,9 @@
 <template>
    <div class="container">
         <div class="text-end mt-4">
-          <button class="btn btn-primary" @click="openModal('new')">
+          <!-- <button class="btn btn-primary" @click="openModal('new')">
             建立新的訂單
-          </button>
+          </button> -->
         </div>
         <table class="table mt-4">
           <thead>
@@ -35,14 +35,14 @@
               </td>
               <td>
                 <div class="btn-group">
-                  <button type="button" class="btn btn-outline-primary btn-sm"
+                  <!-- <button type="button" class="btn btn-outline-primary btn-sm"
                    @click="openModal('edit',item)">
                    檢視
                   </button>
                   <button type="button" class="btn btn-outline-danger btn-sm"
                    @click="openModal('delete',item)">
                     刪除
-                  </button>
+                  </button> -->
                 </div>
               </td>
             </tr>
@@ -55,11 +55,11 @@
         ></pagination>
       </div>
       <!-- Modal -->
-      <product-modal
+      <!-- <product-modal
       :temp-coupons="tempCoupons"
       :update-coupons="updateCoupons"
       ref="pModal"
-      ></product-modal>
+      ></product-modal> -->
 
       <div id="delProductModal" ref="delProductModal" class="modal fade" tabindex="-1"
            aria-labelledby="delProductModalLabel" aria-hidden="true">
@@ -99,8 +99,6 @@ const { VITE_URL, VITE_PATH } = import.meta.env;
 export default {
   data() {
     return {
-      apiUrl: 'https://ec-course-api.hexschool.io',
-      apiPath: 'junapi',
       orders: [],
       tempCoupons: {},
       pages: {},
@@ -111,9 +109,8 @@ export default {
   },
   methods: {
     // 取得產品列表
-    getCoupons(page = 1) { // 參數預設值
-      const url = `${this.apiUrl}/v2/api/${this.apiPath}/admin/orders?page=${page}`;
-      console.log(url);
+    getOrder(page = 1) { // 參數預設值
+      const url = `${VITE_URL}/api/${VITE_PATH}/admin/orders?page=${page}`;
       axios.get(url)
         .then((response) => {
           console.log(response);
@@ -190,6 +187,7 @@ export default {
     },
   },
   mounted() {
+    this.getOrder();
     // 啟用productModal
     this.modalDel = new Modal(this.$refs.delProductModal);
   },

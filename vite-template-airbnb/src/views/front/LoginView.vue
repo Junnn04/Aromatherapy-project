@@ -1,6 +1,7 @@
 <template>
-  <h2>登入</h2>
-  <div class="container">
+
+  <div class="container pt-7">
+    <h2>登入</h2>
         <div class="row justify-content-center">
           <h1 class="h3 mb-3 font-weight-normal">
             請先登入
