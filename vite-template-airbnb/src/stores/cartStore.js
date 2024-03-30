@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
@@ -31,6 +32,7 @@ export default defineStore('cartStore', {
         .then((response) => {
           console.log(response);
           console.log(this.carts);
+          Swal.fire('已將商品添加進購物車');
           this.getCart();
         })
         .catch((err) => {

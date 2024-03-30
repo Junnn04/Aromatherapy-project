@@ -1,9 +1,9 @@
 <template>
-     <loading v-model:active="isLoading"
+     <!-- <loading v-model:active="isLoading"
                :can-cancel="true"
                :on-cancel="onCancel"
-               :is-full-page="fullPage"/>
-     <div class="position-relative">
+               :is-full-page="fullPage"/> -->
+     <div class="position-relative  z-0">
       <div class="position-absolute" style="top:0; bottom:0; left:0; right:0; background-image: url(https://th.bing.com/th/id/OIG1.y8qAI6TiPfngjMh1XOv5?w=1024&h=1024&rs=1&pid=ImgDetMain);
       background-position: center center; opacity: 0.3;"></div>
       <div class="container d-flex flex-column" style="min-height: 100vh;">
@@ -32,7 +32,8 @@
               每一種香氣都是一段故事的開始，我們追求的不僅僅是生活，更是一種與自我對話的方式。</p>
               <!-- <RouterLink class="btn btn-dark rounded-0 mt-6" to="/products">
                 走進香氛</RouterLink> -->
-            <button class="btn btn-dark rounded-0 mt-6">走進香氛</button>
+            <button type="button" class="btn btn-dark rounded-0 mt-6 z-3">
+              <RouterLink class="z-3" to="/products">走進香氛</RouterLink></button>
           </div>
         </div>
       </div>
@@ -40,11 +41,12 @@
     <div class="container">
       <div class="row mt-5">
         <div class="col-md-4 mt-md-4">
+          <RouterLink class="text-decoration-none" to="/products?category=單方精油">
           <div class="card border-0 mb-4">
             <img
-              src="https://th.bing.com/th/id/OIG2.PkpzUwNl.4_04JoG7vot?pid=ImgGnhttps://th.bing.com/th/id/OIG4.Ndf1ZduyejKe3oZIcyMy?w=1024&h=1024&rs=1&pid=ImgDetMain"
+              src="../../assets/img/essential.jpg"
               class="card-img-top rounded-0"
-              alt="..."
+              alt="單方精油"
             />
             <div class="card-body text-center">
               <h4>單方精油</h4>
@@ -55,13 +57,15 @@
               </div>
             </div>
           </div>
+        </RouterLink>
         </div>
         <div class="col-md-4 mt-md-4">
+          <RouterLink class="text-decoration-none" to="/products?category=複方精油">
           <div class="card border-0 mb-4">
             <img
-              src="https://th.bing.com/th/id/OIG4.Ndf1ZduyejKe3oZIcyMy?w=1024&h=1024&rs=1&pid=ImgDetMain"
+              src="../../assets/img/essential oil blend.jpg"
               class="card-img-top rounded-0"
-              alt="..."
+              alt="複方精油"
             />
             <div class="card-body text-center">
               <h4>複方精油</h4>
@@ -72,13 +76,15 @@
               </div>
             </div>
           </div>
+        </RouterLink>
         </div>
         <div class="col-md-4 mt-md-4">
+          <RouterLink class="text-decoration-none" to="/products?category=薰香機">
           <div class="card border-0 mb-4">
             <img
-              src="https://th.bing.com/th/id/OIG3.Q_K2qYZiIogUEMEobWGU?w=1024&h=1024&rs=1&pid=ImgDetMain"
+              src="../../assets/img/Diffuser.jpg"
               class="card-img-top rounded-0"
-              alt="..."
+              alt="精油薰香機"
             />
             <div class="card-body text-center">
               <h4>精油薰香機</h4>
@@ -89,10 +95,11 @@
               </div>
             </div>
           </div>
+        </RouterLink>
         </div>
       </div>
     </div>
-    <div class="bg-light mt-7">
+    <div class="bg-light">
       <div class="container">
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
@@ -102,11 +109,11 @@
                   <h3>香氛之旅</h3>
                   <p class="my-5">我們相信每一種香氣都擁有獨特的力量，能夠觸動人心，療癒靈魂。我們的香氛不僅是一種感官享受，
                     更是一種情感表達，一種生活態度的展現。</p>
-                  <p><small>—Lorem ipsum dolor sit amet.—</small></p>
+                  <p><small>—Fragrance Journey—</small></p>
                 </div>
               </div>
             </div>
-            <div class="carousel-item">
+            <!-- <div class="carousel-item">
               <div class="row justify-content-center py-7">
                 <div class="col-md-6 text-center">
                   <h3>關於</h3>
@@ -115,18 +122,19 @@
                   <p><small>—Lorem ipsum dolor sit amet.—</small></p>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
               </div>
             </div>
           </div>
     <div class="container my-7">
+      <RouterLink class="text-decoration-none" to="/about">
       <div class="row">
         <div class="col-md-6">
-          <img src="../../img/store2.jpg" alt="" class="img-fluid">
+          <img src="../../assets/img/store2.jpg" alt="店面" class="img-fluid">
         </div>
         <div class="col-md-4 m-auto text-center">
-          <h4 class="mt-4 pb-4">品牌故事</h4>
+          <h4 class="mt-4 pb-4"  style="color: #4e342e;">品牌故事</h4>
           <p class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             我們的故事源自於對大自然的尊重與感恩，我們從每一滴花朵的芬芳中汲取靈感
                     ，從每一片樹葉的輕柔中尋找力量。</p>
@@ -134,16 +142,19 @@
                       我們的產品精心挑選來自世界各地的天然植物提取物，保證給您最純淨、最自然的呵護。</p>
         </div>
       </div>
+    </RouterLink>
+    <RouterLink class="text-decoration-none" to="/about">
       <div class="row flex-row-reverse justify-content-between mt-4">
         <div class="col-md-6">
-          <img src="../../img/Process.jpg" alt="" class="img-fluid">
+          <img src="../../assets/img/Process.jpg" alt="工藝" class="img-fluid">
         </div>
         <div class="col-md-4 m-auto text-center">
-          <h4 class="mt-4 pb-4">極致工藝</h4>
+          <h4 class="mt-4 pb-4" style="color: #4e342e;">極致工藝</h4>
           <p class="text-muted">從植物的選擇和種植到萃取、純化和儲存等的每個細節和步驟都進行精心控制和優化，以確保最高質量和純度的精油。
            </p>
         </div>
       </div>
+    </RouterLink>
     </div>
     <!-- <div class="bg-light py-4">
       <div class="container">
@@ -163,7 +174,7 @@
     </div> -->
 </template>
 
-<script>
+<!-- <script>
 import loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
 
@@ -193,7 +204,4 @@ export default {
     this.doAjax();
   },
 };
-</script>
-
-<style scoped>
-</style>
+</script> -->

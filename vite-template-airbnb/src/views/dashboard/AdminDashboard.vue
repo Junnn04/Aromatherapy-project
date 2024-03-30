@@ -21,6 +21,9 @@
                           <RouterLink to="/admin/article" style="color: #d7ccc8;">文章管理</RouterLink>
                         </li>
                         <li class="nav-item" style="padding-bottom: 20px">
+                          <RouterLink to="/admin/picture" style="color: #d7ccc8;">圖片管理</RouterLink>
+                        </li>
+                        <li class="nav-item" style="padding-bottom: 20px">
                           <RouterLink to="/" style="color: #d7ccc8;">回到前台</RouterLink>
                         </li>
                         <li class="nav-item" style="padding-bottom: 20px">

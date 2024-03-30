@@ -49,28 +49,30 @@
                 <p class="mt-4 mb-2">Payment</p>
                 <div class="form-check mb-2">
                   <input class="form-check-input" type="radio" name="gridRadios"
-                   id="gridRadios1" value="option1" checked>
-                  <label class="form-check-label text-muted" for="gridRadios1">WebATM
+                   id="gridRadios1" value="WebATM"  v-model="checked">
+                  <label class="form-check-label text-muted" for="gridRadios1">credit card
                   </label>
                 </div>
                 <div class="form-check mb-2">
                   <input class="form-check-input" type="radio" name="gridRadios"
-                   id="gridRadios2" value="option2">
-                  <label class="form-check-label text-muted" for="gridRadios2">ATM
+                   id="gridRadios2" value="ATM" v-model="checked">
+                  <label class="form-check-label text-muted" for="gridRadios2">WebATM
                   </label>
                 </div>
                 <div class="form-check mb-2">
                   <input class="form-check-input" type="radio" name="gridRadios"
-                   id="gridRadios3" value="option3">
+                   id="gridRadios3" value="ApplePay" v-model="checked">
                   <label class="form-check-label text-muted" for="gridRadios3">ApplePay
                   </label>
                 </div>
             </div>
             <div class="d-flex flex-column-reverse flex-md-row mt-4 justify-content-between
              align-items-md-center align-items-end w-100">
-              <a href="./product.html" class="text-dark mt-md-0 mt-3">
+              <a href="./product.html" class="text-dark mt-md-0 mt-3"
+              @click.prevent="shopingNote()">
                 <i class="fas fa-chevron-left me-2"></i> 購物須知</a>
-                <button type="submit" class="btn btn-dark py-3 px-7 rounded-0">
+                <button type="submit" class="btn btn-dark py-3 px-7 rounded-0"
+                 style="background-color: #7FA185;">
                   確認訂單</button>
             </div>
           </VForm>
@@ -84,12 +86,12 @@
                  alt="" class="me-2" style="width: 48px; height: 48px; object-fit: cover">
                 <div class="w-100">
                   <div class="d-flex justify-content-between fw-bold">
-                    <p class="mb-0">{{item.product.title}}</p>
-                    <p class="mb-0">x{{item.qty}}</p>
+                    <p class="mb-0">{{ item.product.title }}</p>
+                    <p class="mb-0">x{{ item.qty }}</p>
                   </div>
                   <div class="d-flex justify-content-between">
-                    <p class="text-muted mb-0"><small>NT${{item.product.price}}</small></p>
-                    <p class="mb-0">NT${{item.total}}</p>
+                    <p class="text-muted mb-0"><small>NT${{ item.product.price }}</small></p>
+                    <p class="mb-0">NT${{ item.total }}</p>
                   </div>
                 </div>
               </div>
@@ -100,8 +102,13 @@
                     <td class="text-end border-0 px-0 pt-4">NT${{ carts.total }}</td>
                   </tr>
                   <tr>
+                    <th scope="row" class="border-0 px-0 pt-0 pb-4 font-weight-normal">折扣</th>
+                    <td class="text-end border-0 px-0 pt-0 pb-4">
+                      {{ carts.final_total-carts.total }}</td>
+                  </tr>
+                  <tr>
                     <th scope="row" class="border-0 px-0 pt-0 pb-4 font-weight-normal">支付方式</th>
-                    <td class="text-end border-0 px-0 pt-0 pb-4">ApplePay</td>
+                    <td class="text-end border-0 px-0 pt-0 pb-4">{{ checked }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -118,6 +125,7 @@
 
 <script>
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
@@ -126,6 +134,7 @@ export default {
     return {
       carts: {},
       temporder: {},
+      checked: 'credit card',
       form: {
         user: {
           name: '',
@@ -156,12 +165,32 @@ export default {
       const order = this.form;
       axios.post(url, { data: order })
         .then((res) => {
-          this.$router.push(`/front/checkout/${res.data.orderId}`);
-          res.form.resetForm();
+          this.$router.push(`/Checkout/${res.data.orderId}`);
+          this.$refs.form.resetForm();
         })
         .catch((err) => {
-          alert(err.data.message);
+          alert(err.response.data.message);
         });
+    },
+    shopingNote() {
+      Swal.fire({
+        title: '購物須知',
+        html: `
+          <p>歡迎您光臨我們的購物平台！請仔細閱讀以下購物須知：</p>
+          <ol>
+            <li>商品資訊：請在購買商品前仔細閱讀商品描述、價格、規格、尺寸等相關資訊。</li>
+            <li>庫存狀況：商品的庫存狀況可能隨時變化，請確認所需商品是否有庫存。</li>
+            <li>購買流程：選擇您要購買的商品後，請按照網站指示完成訂單流程。</li>
+            <li>付款方式：我們提供多種付款方式供您選擇，包括信用卡、支付寶、微信支付等。</li>
+            <li>運送方式：我們會根據您提供的地址和選擇的運送方式安排商品的發貨。</li>
+            <li>退換貨政策：我們提供合理的退換貨政策，詳細信息請參閱我們的退換貨政策頁面。</li>
+            <li>客戶服務：如果您在購物過程中遇到任何問題或需要幫助，請隨時聯繫我們的客戶服務團隊。</li>
+          </ol>
+        `,
+        icon: 'info',
+        confirmButtonText: '確定',
+        confirmButtonColor: '#3085d6',
+      });
     },
   },
   mounted() {

@@ -15,11 +15,11 @@
                 </thead>
                 <tbody v-if="carts.carts">
                   <tr class="border-bottom border-top" v-for=" item in carts.carts" :key="item.id">
-                    <th scope="row" class="border-0 px-0 font-weight-normal py-4">
-                      <img :src="item.product.imageUrl" alt="" style="width: 72px; height: 72px;
-                       object-fit: cover;">
-                      <p class="mb-0 fw-bold ms-3 d-inline-block">{{ item.product.title }}</p>
-                    </th>
+                    <th scope="row" class="border-0 px-0 font-weight-normal
+                     py-4 d-flex align-items-center">
+  <img :src="item.product.imageUrl" alt="" style="width: 72px; height: 72px; object-fit: cover;">
+  <p class="mb-0 fw-bold ms-3">{{ item.product.title }}</p>
+</th>
                     <td class="border-0 align-middle" style="max-width: 160px;">
                       <div class="input-group pe-5">
                         <div class="input-group-prepend">
@@ -51,7 +51,7 @@
               </table>
               <div class="input-group w-50 mb-3">
                 <input type="text" class="form-control rounded-0 border-bottom border-top-0
-                 border-start-0 border-end-0 shadow-none" placeholder="Coupon Code"
+                 border-start-0 border-end-0 shadow-none" placeholder="優惠碼"
                   aria-label="Recipient's username" aria-describedby="button-addon2"
                    v-model="coupon_code">
                 <div class="input-group-append">
@@ -61,6 +61,9 @@
                    <i class="bi bi-send-fill"></i></button>
                 </div>
               </div>
+              <!-- <div v-if="item.length === 0">
+              <h2>無商品</h2>
+            </div> -->
             </div>
             <div class="col-md-4">
               <div class="border p-4 mb-4">
@@ -74,7 +77,8 @@
                     <tr>
                       <th scope="row" class="border-0 px-0 pt-0 pb-4 font-weight-normal">
                         折扣</th>
-                      <td class="text-end border-0 px-0 pt-0 pb-4">ApplePay</td>
+                      <td class="text-end border-0 px-0 pt-0 pb-4">
+                        {{ carts.final_total-carts.total }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -82,7 +86,8 @@
                   <p class="mb-0 h4 fw-bold">總額</p>
                   <p class="mb-0 h4 fw-bold">NT${{ carts.final_total }}</p>
                 </div>
-                <RouterLink class="btn btn-dark w-100 mt-4" to="/checkout">
+                <RouterLink class="btn btn-dark w-100 mt-4" to="/checkout"
+                 style="background-color: #7FA185;">
                   去買單</RouterLink>
               </div>
             </div>
@@ -101,19 +106,21 @@
     }"
     :navigation="true"
     :modules="modules" >
-  <swiper-slide>
-    <div class="swiper-slide" v-for="item in products" :key="item.id">
+  <swiper-slide  v-for="item in products" :key="item.id">
+    <div class="swiper-slide">
                   <div class="card border-0 mb-4 position-relative position-relative">
-                    <img :src="item.imageUrl" class="card-img-top rounded-0" style="width: 300px">
+                    <RouterLink class="text-decoration-none" :to="`/product/${item.id}`">
+                    <img :src="item.imageUrl" class="card-img-top rounded-0">
                     <a href="#" class="text-dark">
                     </a>
                     <div class="card-body p-0">
-                      <h4 class="mb-0 mt-3"><RouterLink :to="`/product/${item.id}`">
-                    {{ item.title }}</RouterLink></h4>
-                      <p class="card-text mb-0">NT${{ item.price }} <span class="text-muted ">
+                      <h4 class="mb-0 mt-3 fw-bold" style="color: #4e342e;">
+                    {{ item.title }}</h4>
+                      <p class="card-text mb-0 text-primary-emphasis">NT${{ item.price }}</p>
+                      <p class="text-muted"><span class="text-muted ">
                         <del>NT${{ item.origin_price }}</del></span></p>
-                      <p class="text-muted mt-3"></p>
                     </div>
+                  </RouterLink>
                   </div>
                 </div></swiper-slide>
                 <swiper-slide>
@@ -233,6 +240,7 @@
 
 <script>
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
 
@@ -308,7 +316,8 @@ export default {
       axios.post(url, { data: useCoupon })
         .then((response) => {
           console.log(response);
-          alert(response.data.message);
+          Swal.fire(response.data.message);
+          // alert(response.data.message);
           this.getCart();
         })
         .catch((err) => {

@@ -1,9 +1,9 @@
 <template>
         <nav class="navbar navbar-expand-lg navbar-light position-fixed bg-light z-3 w-100 top-0">
           <div class="container">
-          <a class="navbar-brand" href="./index.html">
-            <img src="../img/logo.jpg" class="img-fluid" alt="logo" style="width: 100px">
-          </a>
+            <RouterLink class="nav-item nav-link me-4 active" to="/">
+            <img src="../assets/img/logo.jpg" class="img-fluid" alt="logo" style="width: 100px">
+          </RouterLink>
           <button class="navbar-toggler" type="button"
            data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,8 +11,6 @@
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <RouterLink class="nav-item nav-link me-4 active" to="/">
-                首頁 </RouterLink>
               <RouterLink class="nav-item nav-link me-4" to="/about">關於</RouterLink>
               <RouterLink class="nav-item nav-link me-4" to="/products">產品</RouterLink>
               <RouterLink class="nav-item nav-link me-4" to="/login">登入</RouterLink>

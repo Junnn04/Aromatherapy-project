@@ -1,7 +1,6 @@
 <template>
 
   <div class="container pt-7">
-    <h2>登入</h2>
         <div class="row justify-content-center">
           <h1 class="h3 mb-3 font-weight-normal">
             請先登入
@@ -18,15 +17,13 @@
                   placeholder="Password" required>
                 <label for="password">Password</label>
               </div>
-              <button class="btn btn-lg btn-primary w-100 mt-3" type="submit">
+              <button class="btn btn-lg btn-primary w-100 mt-3 mb-5" type="submit"
+              style="background-color: #7FA185;">
                 登入
               </button>
             </form>
           </div>
         </div>
-        <p class="mt-5 mb-3 text-muted">
-          &copy; 2021~∞ - 六角學院
-        </p>
       </div>
 </template>
 

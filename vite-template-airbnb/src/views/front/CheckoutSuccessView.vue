@@ -1,6 +1,8 @@
 <template>
     <div class="container">
-      <div style="min-height: 400px; background-image: url(https://th.bing.com/th/id/OIG1.yKmF8p2XvPQfF74MvMcd?pid=ImgGn);
+      <div style="min-height: 400px;
+      background-image: url(https://i.postimg.cc/90RrG1N3/bg-Image-Enhancer.jpg);
+      background-repeat: no-repeat;background-size: 100% auto;
       background-position: center center;">
       </div>
       <div class="mt-5 mb-7">
@@ -9,7 +11,8 @@
             <h2>訂購成功</h2>
             <p>感謝您的訂購！商品正在進行出貨程序，請耐心等候。若有任何問題，
               請隨時與我們聯繫。期待您再次光臨，我們將竭誠為您服務。</p>
-              <RouterLink class="btn btn-dark btn-block mt-4 rounded-0 py-3" to="/">
+              <RouterLink class="btn btn-dark btn-block mt-2 py-1" to="/"
+              style="background-color: #7FA185;">
             回首頁</RouterLink>
           </div>
           <div class="col-md-6">
@@ -19,7 +22,7 @@
               </div>
               <div class="card-body px-4 py-0">
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item px-0" v-for="item in carts.carts" :key="item.id">
+                  <li class="list-group-item px-0" v-for="item in order" :key="item.id">
                     <div class="d-flex mt-2">
                       <img :src="item.product.imageUrl"
                        alt="" class="me-2" style="width: 60px; height: 60px; object-fit: cover">
@@ -40,7 +43,7 @@
                       <tbody>
                         <tr>
                           <th scope="row" class="border-0 px-0 font-weight-normal">小計</th>
-                          <td class="text-end border-0 px-0">NT${{ carts.total }}</td>
+                          <td class="text-end border-0 px-0">NT${{  }}</td>
                         </tr>
                         <tr>
                           <th scope="row" class="border-0 px-0 pt-0 font-weight-normal">支付方式</th>
@@ -50,7 +53,7 @@
                     </table>
                     <div class="d-flex justify-content-between mt-2">
                       <p class="mb-0 h4 fw-bold">結帳金額</p>
-                      <p class="mb-0 h4 fw-bold">NT${{ carts.final_total }}</p>
+                      <p class="mb-0 h4 fw-bold">NT${{ }}</p>
                     </div>
                   </li>
                 </ul>
@@ -70,36 +73,29 @@ const { VITE_URL, VITE_PATH } = import.meta.env;
 export default {
   data() {
     return {
-      carts: {},
-      form: {
-        user: {
-          name: '',
-          email: '',
-          tel: '',
-          address: '',
-        },
-        message: '',
-      },
+      orderId: '',
+      order: [],
     };
   },
   methods: {
     // 取得購物車資訊
-    getCart() { // 參數預設值
-      const url = `${VITE_URL}/api/${VITE_PATH}/cart`;
+    getOrder() {
+      const url = `${VITE_URL}/api/${VITE_PATH}/order/${this.orderId}`;
       console.log(url);
       axios.get(url)
-        .then((response) => {
-          console.log(response);
-          this.carts = response.data.data;
-          console.log(this.carts);
-        })
-        .catch((err) => {
-          alert(err.message);
+        .then((res) => {
+          console.log(res.data.order.products);
+          this.order = res.data.order.products;
+        }).catch((err) => {
+          alert(err.response.data.message);
         });
     },
   },
   mounted() {
-    this.getCart();
+    this.Order();
+  },
+  created() {
+    this.orderId = this.$route.params.orderId; // 從路由取得訂單 id
   },
 };
 </script>

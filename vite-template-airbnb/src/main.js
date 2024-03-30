@@ -1,6 +1,5 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import 'bootstrap/scss/bootstrap.scss';
 
 // 引入 VeeValidate 元件跟功能
 import {
@@ -16,12 +15,17 @@ import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
 import App from './App.vue';
 import router from './router';
 
-import './assets/all.scss';
+import './assets/scss/all.scss';
 
 // 使用 Object.keys 將 AllRules 轉為陣列並使用 forEach 迴圈將驗證規則加入 VeeValidate
 Object.keys(AllRules).forEach((rule) => {
   defineRule(rule, AllRules[rule]);
 });
+
+// 自定义验证信用卡号码的格式
+// defineRule('credit_card', (value) => /^\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}$/.test(value));
+// 自定义验证信用卡号码的格式
+defineRule('credit_card', (value) => /^\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}$/.test(value), '信用卡號碼格式不正確');
 
 // 將當前 VeeValidate 的語系設定為繁體中文
 configure({

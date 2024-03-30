@@ -33,7 +33,7 @@ const routes = [
       },
       {
         path: 'Checkout/:orderId',
-        component: () => import('../views/front/payView.vue'),
+        component: () => import('../views/front/PayView.vue'),
       },
       {
         path: 'checkoutSuccess',
@@ -68,6 +68,10 @@ const routes = [
       {
         path: 'article',
         component: () => import('../views/dashboard/AdminArticle.vue'),
+      },
+      {
+        path: 'picture',
+        component: () => import('../views/dashboard/AdminPicture.vue'),
       },
     ],
   },
