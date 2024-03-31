@@ -20,7 +20,7 @@ export default defineStore('cartStore', {
           this.tatol = response.data.data.tatol;
         })
         .catch((err) => {
-          alert(err.message);
+          Swal.fire(err.response.data.message);
         });
     },
     addToCart(id, qty = 1) {
@@ -29,14 +29,12 @@ export default defineStore('cartStore', {
         qty,
       };
       axios.post(`${VITE_URL}/api/${VITE_PATH}/cart`, { data: order })
-        .then((response) => {
-          console.log(response);
-          console.log(this.carts);
+        .then(() => {
           Swal.fire('已將商品添加進購物車');
           this.getCart();
         })
         .catch((err) => {
-          alert(err.message);
+          Swal.fire(err.response.data.message);
         });
     },
   },

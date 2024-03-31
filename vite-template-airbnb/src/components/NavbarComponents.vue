@@ -14,6 +14,7 @@
             <div class="navbar-nav">
               <RouterLink class="nav-item nav-link me-4" to="/about">關於</RouterLink>
               <RouterLink class="nav-item nav-link me-4" to="/products">產品</RouterLink>
+              <RouterLink class="nav-item nav-link me-4" to="/Articles">文章</RouterLink>
               <RouterLink class="nav-item nav-link me-4" to="/login">登入</RouterLink>
               <RouterLink class="btn btn-primary position-relative"
                to="/cart"><i class="bi bi-cart4"></i>
