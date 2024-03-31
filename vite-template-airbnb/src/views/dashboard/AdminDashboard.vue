@@ -1,59 +1,88 @@
 <template>
-<div class="container-fluid">
-<div class="row">
-<div class="col-md-2">
-<div class="text-white" style="height: 100vh; background: #8d6e63;">
-  <h2 class="text-center">Aroma</h2>
-            <nav class="navbar navbar-expand-lg navbar-light">
-                  <!-- 导航项 -->
-                  <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                    <ul class="navbar-nav flex-column"
-                    style="margin-top: 70px; position: absolute; top: 10px"
-                   >
-                      <li class="nav-item active" style="padding-bottom: 20px ;">
-                        <RouterLink class="text-decoration-none"
-                         to="/admin/products" style="color: #d7ccc8;">產品列表</RouterLink>
-                      </li>
-                      <li class="nav-item" style="padding-bottom: 20px">
-                        <RouterLink class="text-decoration-none"
-                         to="/admin/orders" style="color: #d7ccc8;">訂單管理</RouterLink>
-                      </li>
-                      <li class="nav-item" style="padding-bottom: 20px">
-                        <RouterLink class="text-decoration-none"
-                         to="/admin/coupons" style="color: #d7ccc8;">優惠卷管理</RouterLink>
-                      </li>
-                      <li class="nav-item" style="padding-bottom: 20px">
-                        <RouterLink class="text-decoration-none"
-                         to="/admin/article" style="color: #d7ccc8;">文章管理</RouterLink>
-                      </li>
-                      <!-- <li class="nav-item" style="padding-bottom: 20px">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="text-white" style="height: 100vh; background: #8d6e63">
+          <h2 class="text-center">Aroma</h2>
+          <nav class="navbar navbar-expand-lg navbar-light">
+            <!-- 导航项 -->
+            <div
+              class="collapse navbar-collapse justify-content-center"
+              id="navbarNav"
+            >
+              <ul
+                class="navbar-nav flex-column"
+                style="margin-top: 70px; position: absolute; top: 10px"
+              >
+                <li class="nav-item active" style="padding-bottom: 20px">
+                  <RouterLink
+                    class="text-decoration-none"
+                    to="/admin/products"
+                    style="color: #d7ccc8"
+                    >產品列表</RouterLink
+                  >
+                </li>
+                <li class="nav-item" style="padding-bottom: 20px">
+                  <RouterLink
+                    class="text-decoration-none"
+                    to="/admin/orders"
+                    style="color: #d7ccc8"
+                    >訂單管理</RouterLink
+                  >
+                </li>
+                <li class="nav-item" style="padding-bottom: 20px">
+                  <RouterLink
+                    class="text-decoration-none"
+                    to="/admin/coupons"
+                    style="color: #d7ccc8"
+                    >優惠卷管理</RouterLink
+                  >
+                </li>
+                <li class="nav-item" style="padding-bottom: 20px">
+                  <RouterLink
+                    class="text-decoration-none"
+                    to="/admin/article"
+                    style="color: #d7ccc8"
+                    >文章管理</RouterLink
+                  >
+                </li>
+                <!-- <li class="nav-item" style="padding-bottom: 20px">
                         <RouterLink class="text-decoration-none"
                          to="/admin/picture" style="color: #d7ccc8;">圖片管理</RouterLink>
                       </li> -->
-                      <li class="nav-item" style="padding-bottom: 20px">
-                        <RouterLink class="text-decoration-none"
-                         to="/" style="color: #d7ccc8;">回到前台</RouterLink>
-                      </li>
-                      <li class="nav-item" style="padding-bottom: 20px">
-                        <a href="#" class="text-decoration-none"
-                         @click.prevent="signout" style="color: #d7ccc8;">登出</a>
-                      </li>
-                    </ul>
-                  </div>
-                </nav>
+                <li class="nav-item" style="padding-bottom: 20px">
+                  <RouterLink
+                    class="text-decoration-none"
+                    to="/"
+                    style="color: #d7ccc8"
+                    >回到前台</RouterLink
+                  >
+                </li>
+                <li class="nav-item" style="padding-bottom: 20px">
+                  <a
+                    href="#"
+                    class="text-decoration-none"
+                    @click.prevent="signout"
+                    style="color: #d7ccc8"
+                    >登出</a
+                  >
+                </li>
+              </ul>
             </div>
-     </div>
+          </nav>
+        </div>
+      </div>
 
-    <div class="col" style="overflow-x: hidden;">
+      <div class="col" style="overflow-x: hidden">
         <RouterView v-if="checkSuccess"></RouterView>
+      </div>
     </div>
-  </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import Swal from 'sweetalert2';
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const { VITE_URL } = import.meta.env;
 
@@ -68,23 +97,25 @@ export default {
   methods: {
     checkAdmin() {
       const url = `${VITE_URL}/api/user/check`;
-      axios.post(url)
+      axios
+        .post(url)
         .then(() => {
-          Swal.fire('登入成功');
+          Swal.fire("登入成功");
           this.checkSuccess = true;
         })
         .catch((err) => {
           Swal.fire(err.response.data.message);
-          this.$router.push('/login');
+          this.$router.push("/login");
         });
     },
     signout() {
       const url = `${VITE_URL}/logout`;
-      axios.post(url)
+      axios
+        .post(url)
         .then(() => {
-          document.cookie = 'hexToken=;expires=;';
-          Swal.fire('token 已清除');
-          this.$router.push('/login');
+          document.cookie = "hexToken=;expires=;";
+          Swal.fire("token 已清除");
+          this.$router.push("/login");
         })
         .catch((err) => {
           Swal.fire(err.response.data.message);
@@ -95,7 +126,10 @@ export default {
     },
   },
   mounted() {
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+    const token = document.cookie.replace(
+      /(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/,
+      "$1",
+    );
     axios.defaults.headers.common.Authorization = token;
     this.checkAdmin();
   },

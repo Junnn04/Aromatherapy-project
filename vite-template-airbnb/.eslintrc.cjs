@@ -5,33 +5,25 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    'plugin:vue/vue3-essential',
-    'eslint:recommended',
-    'airbnb-base',
+    "plugin:vue/vue3-essential",
+    "eslint:recommended",
+    "airbnb-base",
+    "@vue/prettier",
   ],
-  overrides: [
-  ],
+  overrides: [],
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
+    ecmaVersion: "latest",
+    sourceType: "module",
   },
   settings: {
-    'import/resolver': {
+    "import/resolver": {
       alias: {
-        map: [
-          ['@', './src'],
-        ],
-        extensions: ['.js', '.vue'],
+        map: [["@", "./src"]],
+        extensions: [".js", ".vue"],
       },
     },
-    'import/core-modules': [
-      'vite',
-      '@vitejs/plugin-vue',
-    ],
+    "import/core-modules": ["vite", "@vitejs/plugin-vue"],
   },
-  plugins: [
-    'vue',
-  ],
-  rules: {
-  },
+  plugins: ["vue"],
+  rules: {},
 };
