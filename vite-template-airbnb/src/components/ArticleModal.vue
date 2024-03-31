@@ -17,6 +17,36 @@ aria-hidden="true">
     <pre>
     {{tempArticle}}
     </pre>
+    <div class="col-sm-4">
+         <div class="mb-3">
+           <label for="imageUrl" class="form-label">輸入圖片網址</label>
+           <input id='imageUrl' type="text" class="form-control"
+                  placeholder="請輸入圖片連結" v-model="editArticle.imageUrl">
+           <img class="img-fluid" :src="tempArticle.imageUrl">
+       </div>
+       <div class="mb-3">
+        <div v-if="Array.isArray(tempArticle.tag)">
+         <div class="mb-1" v-for="(tag,key) in editArticle.tag" :key="key">
+           <label for="tag" class="form-label">輸入標記</label>
+           <input id='tag' type="text" class="form-control"
+                  placeholder="請輸入標記" v-model="editArticle.tag">
+         </div>
+              </div>
+            <div v-if="!tempArticle.tag.length ||
+        tempArticle.tag[tempArticle.tag.length - 1]">
+         <button class="btn btn-outline-primary btn-sm d-block w-100"
+          @click="editArticle.tag.push('')">
+           新增標記
+         </button>
+       </div>
+       <div v-else>
+         <button class="btn btn-outline-danger btn-sm d-block w-100"
+          @click="editArticle.tag.pop()">
+           刪除圖片
+         </button>
+       </div>
+       </div>
+      </div>
      <div class="col-sm-8">
        <div class="mb-3">
          <label for="title" class="form-label">標題</label>
@@ -43,10 +73,11 @@ aria-hidden="true">
        <textarea type="text" class="form-control" id="description" v-model="editArticle.description"
        placeholder="請輸入文章描述"></textarea>
      </div>
+     <div class="mb-3">
      <label for="description" class="form-label">文章內容</label>
      <textarea type="text" class="form-control" id="description" v-model="editArticle.content"
      placeholder="請輸入文章內容"></textarea>
-
+    </div>
        <div class="mb-3">
          <div class="form-check">
          <input class="form-check-input" type="checkbox"

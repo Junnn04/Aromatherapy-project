@@ -53,6 +53,7 @@
 
 <script>
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const { VITE_URL } = import.meta.env;
 
@@ -68,12 +69,12 @@ export default {
     checkAdmin() {
       const url = `${VITE_URL}/api/user/check`;
       axios.post(url)
-        .then((res) => {
-          console.log('驗證成功:', res.data.success);
+        .then(() => {
+          Swal.fire('登入成功');
           this.checkSuccess = true;
         })
         .catch((err) => {
-          alert(err.data.message);
+          Swal.fire(err.response.data.message);
           this.$router.push('/login');
         });
     },
@@ -82,11 +83,11 @@ export default {
       axios.post(url)
         .then(() => {
           document.cookie = 'hexToken=;expires=;';
-          alert('token 已清除');
+          Swal.fire('token 已清除');
           this.$router.push('/login');
         })
         .catch((err) => {
-          alert(err.response.data.message);
+          Swal.fire(err.response.data.message);
         });
     },
     setActive(index) {

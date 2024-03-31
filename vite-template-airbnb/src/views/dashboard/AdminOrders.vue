@@ -92,6 +92,8 @@
 <script>
 import axios from 'axios';
 import { Modal } from 'bootstrap';
+import Swal from 'sweetalert2';
+
 import pagination from '../../components/PaginationComponents.vue';
 // import couponsModal from '../../components/CouponsModal.vue';
 const { VITE_URL, VITE_PATH } = import.meta.env;
@@ -113,12 +115,11 @@ export default {
       const url = `${VITE_URL}/api/${VITE_PATH}/admin/orders?page=${page}`;
       axios.get(url)
         .then((response) => {
-          console.log(response);
           this.orders = response.data.orders;
           this.pages = response.data.pagination;
         })
         .catch((err) => {
-          alert(err.message);
+          Swal.fire(err.response.data.message);
         });
     },
     // 打開新增視窗
@@ -158,16 +159,14 @@ export default {
 
       axios[http](url, { data: this.tempCoupons })
         .then((response) => {
-          console.log(response.message);
-          alert(response.data.message);
+          Swal.fire(response.data.message);
           this.getCoupons();
           // this.modalProduct.hide();
           this.$refs.pModal.closeModal();
           this.tempCoupons = {};
         })
         .catch((err) => {
-          console.log(err);
-          alert(err.message);
+          Swal.fire(err.response.data.message);
         });
     },
     delCoupons() {
@@ -176,13 +175,13 @@ export default {
 
       axios.delete(url)
         .then((response) => {
-          alert(response.data.message);
+          Swal.fire(response.data.message);
           // 刪除後，須關閉Modal,並更新資料
           this.modalDel.hide();
           this.getCoupons();
         })
         .catch((err) => {
-          alert(err.data.message);
+          Swal.fire(err.response.data.message);
         });
     },
   },

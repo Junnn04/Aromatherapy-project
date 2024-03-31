@@ -13,9 +13,6 @@ aria-hidden="true">
  </div>
  <div class="modal-body">
    <div class="row">
-    <pre>
-    {{ tempCoupons }}
-    </pre>
      <div class="col-sm-8">
        <div class="mb-3">
          <label for="title" class="form-label">標題</label>

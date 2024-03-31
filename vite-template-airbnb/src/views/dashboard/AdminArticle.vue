@@ -97,7 +97,9 @@ export default {
   data() {
     return {
       articles: [],
-      tempArticle: {},
+      tempArticle: {
+        tag: '',
+      },
       pages: {},
       modalProduct: null,
       modalDel: null,
@@ -123,6 +125,7 @@ export default {
       if (isNew === 'new') {
         // 清空當前tempProduct值
         this.tempArticle = {
+          tag: [],
           create_at: new Date().getTime() / 1000,
         };
         // 變更isNew值
@@ -132,6 +135,9 @@ export default {
       } else if (isNew === 'edit') {
         // 將當前資料傳入tempProduct值
         this.tempArticle = { ...item };
+        if (!Array.isArray(this.tempArticle.tag)) {
+          this.tempArticle.tag = [];
+        }
         this.isNew = false;
         // this.modalProduct.show();
         this.$refs.pModal.openModal();

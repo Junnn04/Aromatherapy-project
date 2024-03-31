@@ -86,6 +86,8 @@
 <script>
 import axios from 'axios';
 import { Modal } from 'bootstrap';
+import Swal from 'sweetalert2';
+
 import pagination from '../../components/PaginationComponents.vue';
 import productModal from '../../components/ProductModal.vue';
 
@@ -110,15 +112,13 @@ export default {
     // 取得產品列表
     getProducts(page = 1) { // 參數預設值
       const url = `${VITE_URL}/api/${VITE_PATH}/admin/products?page=${page}`;
-      console.log(url);
       axios.get(url)
         .then((response) => {
-          console.log(response);
           this.products = response.data.products;
           this.pages = response.data.pagination;
         })
         .catch((err) => {
-          alert(err.data.message);
+          Swal.fire(err.response.data.message);
         });
     },
     // 打開新增視窗
@@ -161,14 +161,14 @@ export default {
 
       axios[http](url, { data: this.tempProduct })
         .then((response) => {
-          alert(response.data.message);
+          Swal.fire(response.data.message);
           this.getProducts();
           // this.modalProduct.hide();
           this.$refs.pModal.closeModal();
           this.tempProduct = {};
         })
         .catch((err) => {
-          alert(err.data.message);
+          Swal.fire(err.response.data.message);
         });
     },
     delProduct() {
@@ -177,13 +177,13 @@ export default {
 
       axios.delete(url)
         .then((response) => {
-          alert(response.data.message);
+          Swal.fire(response.data.message);
           // 刪除後，須關閉Modal,並更新資料
           this.modalDel.hide();
           this.getProducts();
         })
         .catch((err) => {
-          alert(err.data.message);
+          Swal.fire(err.response.data.message);
         });
     },
   },
