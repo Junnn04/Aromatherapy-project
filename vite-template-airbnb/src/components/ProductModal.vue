@@ -122,7 +122,7 @@ aria-hidden="true">
 import { Modal } from 'bootstrap';
 
 export default {
-  props: ['tempProduct', 'updateProduct'],
+  props: ['isNew', 'tempProduct', 'updateProduct'],
   data() {
     return {
       modalProduct: null,

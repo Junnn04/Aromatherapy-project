@@ -1,7 +1,8 @@
 <template>
    <div class="container">
         <div class="text-end mt-4">
-          <button class="btn btn-primary" @click="openModal('new')">
+          <button class="btn btn-primary" style="background-color: #7FA185;"
+          @click="openModal('new')">
             建立新的優惠卷
           </button>
         </div>
@@ -83,6 +84,8 @@
 <script>
 import axios from 'axios';
 import { Modal } from 'bootstrap';
+import Swal from 'sweetalert2';
+
 import pagination from '../../components/PaginationComponents.vue';
 import couponsModal from '../../components/CouponsModal.vue';
 
@@ -100,25 +103,23 @@ export default {
     };
   },
   methods: {
-    // 取得產品列表
-    getCoupons(page = 1) { // 參數預設值
+    // 取得優惠卷列表
+    getCoupons(page = 1) {
       const url = `${VITE_URL}/api/${VITE_PATH}/admin/coupons?page=${page}`;
-      console.log(url);
       axios.get(url)
         .then((response) => {
-          console.log(response);
           this.coupons = response.data.coupons;
           this.pages = response.data.pagination;
         })
         .catch((err) => {
-          alert(err.message);
+          Swal.fire(err.response.data.message);
         });
     },
     // 打開新增視窗
     openModal(isNew, item) {
       // 判斷為新增時
       if (isNew === 'new') {
-        // 清空當前tempProduct值
+        // 清空當前tempCoupons值
         this.tempCoupons = {
           due_date: new Date().getTime() / 1000,
         };
@@ -127,13 +128,13 @@ export default {
         this.$refs.pModal.openModal();
         // this.modalProduct.show();
       } else if (isNew === 'edit') {
-        // 將當前資料傳入tempProduct值
+        // 將當前資料傳入tempCoupons值
         this.tempCoupons = { ...item };
         this.isNew = false;
         // this.modalProduct.show();
         this.$refs.pModal.openModal();
       } else if (isNew === 'delete') {
-        // 將當前資料傳入tempProduct值，為了取得id
+        // 將當前資料傳入tempCoupons值，為了取得id
         this.tempCoupons = { ...item };
         // 開起delProductsModal
         this.modalDel.show();
@@ -151,16 +152,14 @@ export default {
 
       axios[http](url, { data: this.tempCoupons })
         .then((response) => {
-          console.log(response.message);
-          alert(response.message);
+          Swal.fire(response.data.message);
           this.getCoupons();
           // this.modalProduct.hide();
           this.$refs.pModal.closeModal();
           this.tempCoupons = {};
         })
         .catch((err) => {
-          console.log(err);
-          alert(err.message);
+          Swal.fire(err.response.data.message);
         });
     },
     delCoupons() {
@@ -169,13 +168,13 @@ export default {
 
       axios.delete(url)
         .then((response) => {
-          alert(response.data.message);
+          Swal.fire(response.data.message);
           // 刪除後，須關閉Modal,並更新資料
           this.modalDel.hide();
           this.getCoupons();
         })
         .catch((err) => {
-          alert(err.data.message);
+          Swal.fire(err.response.data.message);
         });
     },
   },

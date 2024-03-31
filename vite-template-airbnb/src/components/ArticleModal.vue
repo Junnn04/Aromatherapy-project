@@ -83,7 +83,7 @@ export default {
     };
   },
   watch: {
-    article() {
+    tempArticle() {
       this.editArticle = this.tempArticle;
       // 將時間格式改為 YYYY-MM-DD
       const date = new Date(this.editArticle.create_at * 1000)

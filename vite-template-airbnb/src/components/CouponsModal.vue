@@ -14,7 +14,7 @@ aria-hidden="true">
  <div class="modal-body">
    <div class="row">
     <pre>
-    {{tempCoupons}}
+    {{ tempCoupons }}
     </pre>
      <div class="col-sm-8">
        <div class="mb-3">
@@ -78,7 +78,7 @@ export default {
     };
   },
   watch: {
-    coupon() {
+    tempCoupons() {
       this.editCoupons = this.tempCoupons;
       // 將時間格式改為 YYYY-MM-DD
       const date = new Date(this.editCoupons.due_date * 1000)

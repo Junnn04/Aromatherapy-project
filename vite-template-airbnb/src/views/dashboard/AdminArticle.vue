@@ -1,7 +1,8 @@
 <template>
  <div class="container">
         <div class="text-end mt-4">
-          <button class="btn btn-primary" @click="openModal('new')">
+          <button class="btn btn-primary" style="background-color: #7FA185;"
+          @click="openModal('new')">
             建立新文章
           </button>
         </div>
@@ -85,6 +86,8 @@
 <script>
 import axios from 'axios';
 import { Modal } from 'bootstrap';
+import Swal from 'sweetalert2';
+
 import pagination from '../../components/PaginationComponents.vue';
 import articleModal from '../../components/ArticleModal.vue';
 
@@ -105,15 +108,13 @@ export default {
     // 取得產品列表
     getArticle(page = 1) { // 參數預設值
       const url = `${VITE_URL}/api/${VITE_PATH}/admin/articles?page=${page}`;
-      console.log(url);
       axios.get(url)
         .then((response) => {
-          console.log(response);
           this.articles = response.data.articles;
           this.pages = response.data.pagination;
         })
         .catch((err) => {
-          alert(err.message);
+          Swal.fire(err.response.data.message);
         });
     },
     // 打開新增視窗
@@ -153,16 +154,14 @@ export default {
 
       axios[http](url, { data: this.tempArticle })
         .then((response) => {
-          console.log(response.message);
-          alert(response.data.message);
+          Swal.fire(response.data.message);
           this.getArticle();
           // this.modalProduct.hide();
           this.$refs.pModal.closeModal();
           this.tempArticle = {};
         })
         .catch((err) => {
-          console.log(err);
-          alert(err.message);
+          Swal.fire(err.response.data.message);
         });
     },
     delArticle() {
@@ -171,13 +170,13 @@ export default {
 
       axios.delete(url)
         .then((response) => {
-          alert(response.data.message);
+          Swal.fire(response.data.message);
           // 刪除後，須關閉Modal,並更新資料
           this.modalDel.hide();
           this.getArticle();
         })
         .catch((err) => {
-          alert(err.data.message);
+          Swal.fire(err.response.data.message);
         });
     },
   },
