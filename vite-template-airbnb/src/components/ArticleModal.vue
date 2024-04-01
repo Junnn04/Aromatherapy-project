@@ -124,13 +124,18 @@
               </div>
               <div class="mb-3">
                 <label for="description" class="form-label">文章內容</label>
-                <textarea
+                <Ckeditor
+                  :editor="editor"
+                  v-model="editArticle.content"
+                  :config="editorConfig"
+                ></Ckeditor>
+                <!-- <textarea
                   type="text"
                   class="form-control"
                   id="description"
                   v-model="editArticle.content"
                   placeholder="請輸入文章內容"
-                ></textarea>
+                ></textarea> -->
               </div>
               <div class="mb-3">
                 <div class="form-check">
@@ -168,13 +173,20 @@
 <script>
 import { Modal } from "bootstrap";
 
+import CKEditor from "@ckeditor/ckeditor5-vue";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 export default {
   props: ["isNew", "tempArticle", "updateArticle"],
   data() {
     return {
       modalArticle: null,
-      editArticle: {},
+      editArticle: {
+        content: "",
+      },
       create_at: "",
+      editor: ClassicEditor,
+      editorConfig: { extraPlugins: [] },
     };
   },
   watch: {
@@ -201,6 +213,9 @@ export default {
   mounted() {
     this.modalArticle = new Modal(this.$refs.articleModal);
     this.editArticle = this.tempArticle;
+  },
+  components: {
+    Ckeditor: CKEditor.component,
   },
 };
 </script>

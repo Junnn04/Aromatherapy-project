@@ -64,9 +64,7 @@
         ><p style="text-align: right">{{ article.create_at }}</p></small
       >
       <img :src="article.image" />
-      <p class="my-5">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article.content }}
-      </p>
+      <p class="my-5" v-html="article.content"></p>
     </div>
   </div>
 </template>
