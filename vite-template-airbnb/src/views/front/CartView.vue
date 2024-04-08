@@ -12,12 +12,12 @@
       <h3 class="mt-3 mb-4">購物車</h3>
       <div class="row">
         <div class="col-md-8">
-          <table class="table" v-if="typeof carts !== 'undefined'">
+          <table class="table" v-if="carts && carts.carts.length > 0">
             <thead>
               <tr>
-                <th scope="col" class="border-0 ps-0">品項</th>
-                <th scope="col" class="border-0">數量</th>
-                <th scope="col" class="border-0">金額</th>
+                <th scope="col" class="border-0 ps-0 text-center">品項</th>
+                <th scope="col" class="border-0 text-center">數量</th>
+                <th scope="col" class="border-0 text-center">金額</th>
                 <th scope="col" class="border-0"></th>
               </tr>
             </thead>
@@ -32,6 +32,7 @@
                   class="border-0 px-0 font-weight-normal py-4 d-flex align-items-center"
                 >
                   <img
+                    class="d-md-block d-none"
                     :src="item.product.imageUrl"
                     :alt="item.product.title"
                     style="width: 72px; height: 72px; object-fit: cover"
@@ -39,8 +40,8 @@
                   <p class="mb-0 fw-bold ms-3">{{ item.product.title }}</p>
                 </th>
                 <td class="border-0 align-middle" style="max-width: 160px">
-                  <div class="input-group pe-5">
-                    <div class="input-group-prepend">
+                  <div class="input-group">
+                    <div class="input-group-prepend text-center">
                       <button
                         class="btn btn-outline-dark border-0 py-2"
                         type="button"
@@ -82,7 +83,7 @@
                   </div>
                 </td>
                 <td class="border-0 align-middle">
-                  <p class="mb-0 ms-auto">NT${{ item.total }}</p>
+                  <p class="mb-0 ms-auto text-center">NT${{ item.total }}</p>
                 </td>
                 <td class="border-0 align-middle">
                   <button
@@ -98,7 +99,16 @@
             </tbody>
           </table>
           <div v-else>
-            <p>購惡</p>
+            <div class="text-center py-7">
+              <i class="bi bi-exclamation-octagon" style="font-size: 5rem"></i>
+              <p>購物車內無商品</p>
+              <RouterLink
+                class="btn btn-secondary mt-4 border-0"
+                to="/Products"
+              >
+                前往挑選商品</RouterLink
+              >
+            </div>
           </div>
           <div class="input-group w-50 mb-3">
             <input
@@ -175,6 +185,8 @@
               }"
               :navigation="true"
               :modules="modules"
+              @swiper="onSwiper"
+              @slideChange="onSlideChange"
             >
               <swiper-slide v-for="item in products" :key="item.id">
                 <div class="swiper-slide">
@@ -222,6 +234,8 @@ import Swal from "sweetalert2";
 import loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 
+import { mapActions } from "pinia";
+import cartStore from "@/stores/cartStore";
 import { Swiper, SwiperSlide } from "swiper/vue";
 
 // Import Swiper styles
@@ -231,7 +245,7 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 
 // import required modules
-import { Pagination, Navigation } from "swiper/modules";
+import { Pagination, Navigation, Scrollbar, A11y } from "swiper/modules";
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
@@ -248,7 +262,7 @@ export default {
   },
   setup() {
     return {
-      modules: [Pagination, Navigation],
+      modules: [Navigation, Pagination, Scrollbar, A11y],
     };
   },
   methods: {
@@ -284,18 +298,19 @@ export default {
           Swal.fire(err.response.data.message);
         });
     },
-    removeCartItem(id) {
-      // this.status.cartQtyLoading = id;
-      const url = `${VITE_URL}/api/${VITE_PATH}/cart/${id}`;
-      axios
-        .delete(url)
-        .then(() => {
-          this.getCart();
-        })
-        .catch((err) => {
-          Swal.fire(err.response.data.message);
-        });
-    },
+    ...mapActions(cartStore, ["removeCartItem"]),
+    // removeCartItem(id) {
+    //   // this.status.cartQtyLoading = id;
+    //   const url = `${VITE_URL}/api/${VITE_PATH}/cart/${id}`;
+    //   axios
+    //     .delete(url)
+    //     .then(() => {
+    //       this.getCart();
+    //     })
+    //     .catch((err) => {
+    //       Swal.fire(err.response.data.message);
+    //     });
+    // },
     addCouponCode() {
       const url = `${VITE_URL}/api/${VITE_PATH}/coupon`;
       const useCoupon = {

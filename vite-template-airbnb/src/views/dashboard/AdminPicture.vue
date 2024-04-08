@@ -1,5 +1,10 @@
 <template>
-<input type="file" class="form-control" id="file" placeholder="請輸入圖片連結">
+  <input
+    type="file"
+    class="form-control"
+    id="file"
+    placeholder="請輸入圖片連結"
+  />
 </template>
 
 <!-- <script>

@@ -251,7 +251,6 @@ export default {
         .get(url)
         .then((res) => {
           this.order = res.data.order.products;
-          console.log(this.order);
         })
         .catch((err) => {
           Swal.fire(err.response.data.message);

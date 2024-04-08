@@ -40,5 +40,18 @@ export default defineStore("cartStore", {
           Swal.fire(err.response.data.message);
         });
     },
+    removeCartItem(id) {
+      // this.status.cartQtyLoading = id;
+      const url = `${VITE_URL}/api/${VITE_PATH}/cart/${id}`;
+      axios
+        .delete(url)
+        .then((res) => {
+          Swal.fire(res.data.message);
+          this.getCart();
+        })
+        .catch((err) => {
+          Swal.fire(err.response.data.message);
+        });
+    },
   },
 });

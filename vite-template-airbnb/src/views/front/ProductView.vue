@@ -12,47 +12,17 @@
   <div class="container pt-7">
     <div class="row align-items-center">
       <div class="col-md-6">
-        <div
-          id="carouselExampleControls"
-          class="carousel slide"
-          data-ride="carousel"
-        >
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img
-                :src="product.imageUrl"
-                class="d-block w-100"
-                :alt="product.title"
-              />
-            </div>
-
-            <div class="carousel-item">
-              <img
-                src="https://images.unsplash.com/photo-1502743780242-f10d2ce370f3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1916&q=80"
-                class="d-block w-100"
-                alt="..."
-              />
-            </div>
-          </div>
-          <a
-            class="carousel-control-prev"
-            href="#carouselExampleControls"
-            role="button"
-            data-slide="prev"
-          >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a
-            class="carousel-control-next"
-            href="#carouselExampleControls"
-            role="button"
-            data-slide="next"
-          >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only"></span>
-          </a>
-        </div>
+        <swiper :navigation="true" :modules="modules" class="mySwiper">
+          <swiper-slide>
+            <img
+              :src="product.imageUrl"
+              class="d-block w-100"
+              :alt="product.title"
+          /></swiper-slide>
+          <swiper-slide v-for="item in product.imagesUrl" :key="item.id"
+            ><img :src="item" class="d-block w-100" :alt="product.title"
+          /></swiper-slide>
+        </swiper>
         <div class="row pt-3">
           <div
             class="col-md-2"
