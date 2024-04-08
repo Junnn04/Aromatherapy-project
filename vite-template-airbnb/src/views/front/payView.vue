@@ -18,7 +18,7 @@
             <div class="w-100">
               <div class="d-flex justify-content-between">
                 <p class="mb-0 fw-bold">{{ item.product.title }}</p>
-                <p class="mb-0">NT${{ item.product.price }}</p>
+                <p class="mb-0">NT${{ item.total }}</p>
               </div>
               <p class="mb-0 fw-bold">x{{ item.qty }}</p>
             </div>
@@ -216,7 +216,7 @@
           >
             <button
               type="submit"
-              class="btn btn-dark py-3 px-7"
+              class="btn btn-dark py-3 px-7 border-0"
               style="background-color: #7fa185"
             >
               確認付款
@@ -251,6 +251,7 @@ export default {
         .get(url)
         .then((res) => {
           this.order = res.data.order.products;
+          console.log(this.order);
         })
         .catch((err) => {
           Swal.fire(err.response.data.message);

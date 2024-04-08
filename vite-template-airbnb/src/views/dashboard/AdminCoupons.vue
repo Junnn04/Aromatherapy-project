@@ -2,7 +2,7 @@
   <div class="container">
     <div class="text-end mt-4">
       <button
-        class="btn btn-primary"
+        class="btn btn-primary border-0"
         style="background-color: #7fa185"
         @click="openModal('new')"
       >
@@ -107,7 +107,7 @@ import axios from "axios";
 import { Modal } from "bootstrap";
 import Swal from "sweetalert2";
 
-import pagination from "../../components/PaginationComponents.vue";
+import pagination from "../../components/CouponsPagination.vue";
 import couponsModal from "../../components/CouponsModal.vue";
 
 const { VITE_URL, VITE_PATH } = import.meta.env;

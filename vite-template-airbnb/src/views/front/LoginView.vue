@@ -28,7 +28,7 @@
             <label for="password">Password</label>
           </div>
           <button
-            class="btn btn-lg btn-primary w-100 mt-3 mb-5"
+            class="btn btn-lg btn-primary w-100 mt-3 mb-5 border-0"
             type="submit"
             style="background-color: #7fa185"
           >

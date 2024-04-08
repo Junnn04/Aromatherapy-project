@@ -4,7 +4,9 @@
     :can-cancel="true"
     :on-cancel="onCancel"
     :is-full-page="fullPage"
-  />
+    loader="dots"
+  >
+  </loading>
   <div
     class="position-relative d-flex align-items-center justify-content-center mt-5"
     style="min-height: 300px"
@@ -96,7 +98,7 @@
                   :src="item.imageUrl"
                   height="294"
                   class="card-img-top rounded-0 object-fit-cover"
-                  alt="..."
+                  :alt="item.title"
                 />
                 <a href="#" class="text-dark">
                   <i
@@ -175,7 +177,7 @@ export default {
   methods: {
     // 取得產品列表
     getProducts(page = 1) {
-      // 參數預設值
+      this.isLoading = true;
       const { category = "" } = this.$route.query;
       const url = `${VITE_URL}/api/${VITE_PATH}/products?category=${category}&page=${page}`;
       axios
@@ -183,25 +185,17 @@ export default {
         .then((response) => {
           this.products = response.data.products;
           this.pages = response.data.pagination;
+          this.isLoading = false;
         })
         .catch((err) => {
           Swal.fire(err.response.data.message);
+          this.isLoading = false;
         });
-    }, // Loading效果
-    doAjax() {
-      this.isLoading = true;
-      // simulate AJAX
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 3000);
-    },
-    onCancel() {
-      console.log("User cancelled the loader.");
     },
   },
   mounted() {
     this.getProducts();
-    this.doAjax();
+    // this.doAjax();
   },
   components: {
     pagination,

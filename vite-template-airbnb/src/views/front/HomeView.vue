@@ -3,9 +3,9 @@
                :can-cancel="true"
                :on-cancel="onCancel"
                :is-full-page="fullPage"/> -->
-  <div class="position-relative z-0">
+  <div class="position-relative">
     <div
-      class="position-absolute"
+      class="position-absolute z-n1"
       style="
         top: 0;
         bottom: 0;
@@ -44,7 +44,12 @@
           <!-- <RouterLink class="btn btn-dark rounded-0 mt-6" to="/products">
                 走進香氛</RouterLink> -->
           <button type="button" class="btn btn-dark rounded-0 mt-6 z-3">
-            <RouterLink class="z-3" to="/products">走進香氛</RouterLink>
+            <RouterLink
+              class="text-decoration-none"
+              style="color: #7fa185"
+              to="/products"
+              >走進香氛</RouterLink
+            >
           </button>
         </div>
       </div>

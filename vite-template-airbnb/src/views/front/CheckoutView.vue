@@ -8,6 +8,44 @@
               <h4 class="fw-bold">1. 訂購資訊</h4>
               <p class="mt-4">聯絡資訊</p>
               <div class="mb-2">
+                <label for="ContactName" class="text-muted mb-0 form-label"
+                  >訂購人姓名</label
+                >
+                <VField
+                  type="text"
+                  class="form-control rounded-0"
+                  id="ContactName"
+                  name="name"
+                  placeholder="Carmen A. Rose"
+                  rules="required"
+                  v-model="form.user.name"
+                  :class="{ 'is-invalid': errors['name'] }"
+                ></VField>
+                <error-message
+                  name="name"
+                  class="invalid-feedback"
+                ></error-message>
+              </div>
+              <div class="mb-2">
+                <label for="ContactPhone" class="text-muted mb-0 form-label"
+                  >訂購人電話</label
+                >
+                <VField
+                  type="text"
+                  class="form-control rounded-0"
+                  id="ContactPhone"
+                  placeholder="09xxxxxxxx"
+                  rules="required|min:10|max:10"
+                  v-model="form.user.tel"
+                  :class="{ 'is-invalid': errors['tel'] }"
+                  name="tel"
+                ></VField>
+                <error-message
+                  name="tel"
+                  class="invalid-feedback"
+                ></error-message>
+              </div>
+              <div class="mb-2">
                 <label for="ContactMail" class="text-muted mb-0 form-label"
                   >Email</label
                 >
@@ -28,52 +66,18 @@
                 ></error-message>
               </div>
               <div class="form-group form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input rounded-0"
-                  id="ContactLorem"
-                />
-                <label class="form-check-label" for="ContactLorem">
-                  是否記住Email</label
+                <small
+                  ><input
+                    type="checkbox"
+                    class="form-check-input rounded-0"
+                    id="ContactLorem"
+                    v-model="rememberEmail"
+                    @change="updateRememberEmail"
+                  />
+                  <label class="form-check-label fs-6" for="ContactLorem">
+                    是否記住Email</label
+                  ></small
                 >
-              </div>
-              <div class="mb-2">
-                <label for="ContactName" class="text-muted mb-0 form-label"
-                  >訂購人姓名</label
-                >
-                <VField
-                  type="text"
-                  class="form-control rounded-0"
-                  id="ContactName"
-                  name="name"
-                  placeholder="Carmen A. Rose"
-                  rules="required"
-                  v-model="form.user.name"
-                  :class="{ 'is-invalid': errors['name'] }"
-                ></VField>
-                <error-message
-                  name="name"
-                  class="invalid-feedback"
-                ></error-message>
-              </div>
-              <div class="">
-                <label for="ContactPhone" class="text-muted mb-0 form-label"
-                  >Phone</label
-                >
-                <VField
-                  type="text"
-                  class="form-control rounded-0"
-                  id="ContactPhone"
-                  placeholder="09xxxxxxxx"
-                  rules="required|min:10|max:10"
-                  v-model="form.user.tel"
-                  :class="{ 'is-invalid': errors['tel'] }"
-                  name="tel"
-                ></VField>
-                <error-message
-                  name="tel"
-                  class="invalid-feedback"
-                ></error-message>
               </div>
             </div>
             <div class="bg-white p-4 mt-3">
@@ -104,7 +108,7 @@
                   type="radio"
                   name="gridRadios"
                   id="gridRadios1"
-                  value="WebATM"
+                  value="credit card"
                   v-model="checked"
                 />
                 <label class="form-check-label text-muted" for="gridRadios1"
@@ -117,7 +121,7 @@
                   type="radio"
                   name="gridRadios"
                   id="gridRadios2"
-                  value="ATM"
+                  value="WebATM"
                   v-model="checked"
                 />
                 <label class="form-check-label text-muted" for="gridRadios2"
@@ -150,7 +154,7 @@
               >
               <button
                 type="submit"
-                class="btn btn-dark py-3 px-7 rounded-0"
+                class="btn btn-dark py-3 px-7 rounded border-0"
                 style="background-color: #7fa185"
               >
                 確認訂單
@@ -239,6 +243,7 @@ export default {
       carts: {},
       temporder: {},
       checked: "credit card",
+      rememberEmail: false,
       form: {
         user: {
           name: "",
@@ -278,12 +283,22 @@ export default {
           Swal.fire(err.response.data.message);
         });
     },
+    updateRememberEmail() {
+      if (this.rememberEmail) {
+        // 如果 checkbox 被選中，則將 email 存儲到 localStorage
+        const { email } = this.form.user; // 將你的 email 替換為實際的值
+        localStorage.setItem("rememberEmail", email);
+      } else {
+        // 如果 checkbox 取消選中，則從 localStorage 中刪除 email
+        localStorage.removeItem("rememberEmail");
+      }
+    },
     shopingNote() {
       Swal.fire({
         title: "購物須知",
         html: `
           <p>歡迎您光臨我們的購物平台！請仔細閱讀以下購物須知：</p>
-          <ol>
+          <ol class="text-start">
             <li>商品資訊：請在購買商品前仔細閱讀商品描述、價格、規格、尺寸等相關資訊。</li>
             <li>庫存狀況：商品的庫存狀況可能隨時變化，請確認所需商品是否有庫存。</li>
             <li>購買流程：選擇您要購買的商品後，請按照網站指示完成訂單流程。</li>
@@ -301,6 +316,11 @@ export default {
   },
   mounted() {
     this.getCart();
+    // 在頁面加載時檢查 localStorage 中是否已經存儲了 email
+    const storedEmail = localStorage.getItem("rememberEmail");
+    if (storedEmail) {
+      this.rememberEmail = true;
+    }
   },
 };
 </script>

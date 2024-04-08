@@ -1,7 +1,17 @@
 <template>
-  <div class="container pt-5">
+  <div>
+    <loading
+      v-model:active="isLoading"
+      :can-cancel="true"
+      :on-cancel="onCancel"
+      :is-full-page="fullPage"
+      loader="dots"
+    >
+    </loading>
+  </div>
+  <div class="container pt-7">
     <div class="row align-items-center">
-      <div class="col-md-7">
+      <div class="col-md-6">
         <div
           id="carouselExampleControls"
           class="carousel slide"
@@ -9,11 +19,13 @@
         >
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img :src="product.imageUrl" class="d-block w-100" alt="..." />
+              <img
+                :src="product.imageUrl"
+                class="d-block w-100"
+                :alt="product.title"
+              />
             </div>
-            <!-- <div class="carousel-item" v-for="item in product" :key="item.id">
-                <img :src="item.imagesUrl" class="d-block w-100" alt="...">
-              </div> -->
+
             <div class="carousel-item">
               <img
                 src="https://images.unsplash.com/photo-1502743780242-f10d2ce370f3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1916&q=80"
@@ -41,19 +53,23 @@
             <span class="sr-only"></span>
           </a>
         </div>
-        <div v-for="item in product" :key="item.id">
-          <img :src="item.imagesUrl" class="w-100" />
+        <div class="row pt-3">
+          <div
+            class="col-md-2"
+            v-for="item in product.imagesUrl"
+            :key="item.id"
+          >
+            <img :src="item" width="100px" />
+          </div>
         </div>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-6">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-white px-0 mb-0 py-3">
             <li class="breadcrumb-item">
-              <RouterLink class="text-muted" to="/"> 首頁 </RouterLink>
+              <RouterLink class="text-muted" to="/products">產品</RouterLink>
             </li>
-            <li class="breadcrumb-item">
-              <RouterLink class="text-muted" to="/products">上一頁</RouterLink>
-            </li>
+            <li class="breadcrumb-item">{{ product.title }}</li>
           </ol>
         </nav>
         <h2 class="fw-bold h1 mb-1">{{ product.title }}</h2>
@@ -66,18 +82,14 @@
         <div class="row align-items-center">
           <div class="col-6">
             <div class="input-group my-3 bg-light rounded">
-              <!-- <input type="text" class="form-control border-0 text-center
-                 my-auto shadow-none bg-light" placeholder=""
-                  aria-label="Example text with button addon"
-                   aria-describedby="button-addon1" value="1"> -->
-              <select name="" id="" class="form-select" v-modol="qty">
+              <select name="" id="" class="form-select" v-model="qty">
                 <option :value="i" v-for="i in 20" :key="i">{{ i }}</option>
               </select>
             </div>
           </div>
           <div class="col-6">
             <a
-              class="text-nowrap btn btn-dark w-100 py-2"
+              class="text-nowrap btn btn-dark w-100 py-2 border-0"
               style="background-color: #7fa185"
               @click.prevent="addToCart(product.id, qty)"
               >加入購物車</a
@@ -102,13 +114,13 @@
             :modules="modules"
           >
             <swiper-slide v-for="item in products" :key="item.id">
-              <div class="swiper-slide">
-                <div
-                  class="card border-0 mb-4 position-relative position-relative"
-                >
-                  <RouterLink
-                    class="text-decoration-none"
-                    :to="`/product/${item.id}`"
+              <RouterLink
+                class="text-decoration-none"
+                :to="`/product/${item.id}`"
+              >
+                <div class="swiper-slide">
+                  <div
+                    class="card border-0 mb-4 position-relative position-relative"
                   >
                     <img :src="item.imageUrl" class="card-img-top rounded-0" />
                     <a href="#" class="text-dark"> </a>
@@ -125,9 +137,9 @@
                         >
                       </p>
                     </div>
-                  </RouterLink>
+                  </div>
                 </div>
-              </div></swiper-slide
+              </RouterLink></swiper-slide
             >
           </swiper>
         </div>
@@ -139,6 +151,9 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
+
+import loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
 
 import { mapActions } from "pinia";
 import cartStore from "@/stores/cartStore";
@@ -163,6 +178,8 @@ export default {
         imagesUrl: [],
       },
       qty: 1,
+      isLoading: false,
+      fullPage: true,
     };
   },
   setup() {
@@ -171,16 +188,19 @@ export default {
     };
   },
   methods: {
-    // 取得產品列表
+    // 取得產品
     getProduct() {
+      this.isLoading = true;
       const { id } = this.$route.params;
       axios
         .get(`${VITE_URL}/api/${VITE_PATH}/product/${id}`)
         .then((response) => {
           this.product = response.data.product;
+          this.isLoading = false;
         })
         .catch((err) => {
           Swal.fire(err.response.data.message);
+          this.isLoading = false;
         });
     }, // swiper_取得產品列表
     getProducts() {
@@ -216,6 +236,7 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
+    loading,
   },
 };
 </script>

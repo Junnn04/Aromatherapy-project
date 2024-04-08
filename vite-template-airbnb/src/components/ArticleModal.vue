@@ -129,13 +129,6 @@
                   v-model="editArticle.content"
                   :config="editorConfig"
                 ></Ckeditor>
-                <!-- <textarea
-                  type="text"
-                  class="form-control"
-                  id="description"
-                  v-model="editArticle.content"
-                  placeholder="請輸入文章內容"
-                ></textarea> -->
               </div>
               <div class="mb-3">
                 <div class="form-check">

@@ -18,7 +18,7 @@
             請隨時與我們聯繫。期待您再次光臨，我們將竭誠為您服務。
           </p>
           <RouterLink
-            class="btn btn-dark btn-block mt-2 py-1"
+            class="btn btn-dark btn-block mt-2 py-1 border-0"
             to="/"
             style="background-color: #7fa185"
           >

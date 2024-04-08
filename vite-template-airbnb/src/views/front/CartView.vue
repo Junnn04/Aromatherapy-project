@@ -1,10 +1,18 @@
 <template>
+  <loading
+    v-model:active="isLoading"
+    :can-cancel="true"
+    :on-cancel="onCancel"
+    :is-full-page="fullPage"
+    loader="dots"
+  >
+  </loading>
   <div class="container pt-7">
     <div class="mt-3">
       <h3 class="mt-3 mb-4">購物車</h3>
       <div class="row">
         <div class="col-md-8">
-          <table class="table">
+          <table class="table" v-if="typeof carts !== 'undefined'">
             <thead>
               <tr>
                 <th scope="col" class="border-0 ps-0">品項</th>
@@ -13,7 +21,7 @@
                 <th scope="col" class="border-0"></th>
               </tr>
             </thead>
-            <tbody v-if="carts.carts">
+            <tbody>
               <tr
                 class="border-bottom border-top"
                 v-for="item in carts.carts"
@@ -89,6 +97,9 @@
               </tr>
             </tbody>
           </table>
+          <div v-else>
+            <p>購惡</p>
+          </div>
           <div class="input-group w-50 mb-3">
             <input
               type="text"
@@ -109,9 +120,6 @@
               </button>
             </div>
           </div>
-          <!-- <div v-if="item.length === 0">
-              <h2>無商品</h2>
-            </div> -->
         </div>
         <div class="col-md-4">
           <div class="border p-4 mb-4">
@@ -144,7 +152,7 @@
               <p class="mb-0 h4 fw-bold">NT${{ carts.final_total }}</p>
             </div>
             <RouterLink
-              class="btn btn-dark w-100 mt-4"
+              class="btn btn-dark w-100 mt-4 border-0"
               to="/checkout"
               style="background-color: #7fa185"
             >
@@ -211,6 +219,9 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
+import loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
+
 import { Swiper, SwiperSlide } from "swiper/vue";
 
 // Import Swiper styles
@@ -230,6 +241,9 @@ export default {
       products: [],
       carts: {},
       coupon_code: "",
+      isLoading: false,
+      fullPage: true,
+      onCancel: true,
     };
   },
   setup() {
@@ -241,14 +255,17 @@ export default {
     // 取得購物車列表
     getCart() {
       // 參數預設值
+      this.isLoading = true;
       const url = `${VITE_URL}/api/${VITE_PATH}/cart`;
       axios
         .get(url)
         .then((response) => {
           this.carts = response.data.data;
+          this.isLoading = false;
         })
         .catch((err) => {
           Swal.fire(err.response.data.message);
+          this.isLoading = false;
         });
     }, // 調整商品數量
     changeCartQty(item, qty = 1) {
@@ -314,6 +331,7 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
+    loading,
   },
 };
 </script>

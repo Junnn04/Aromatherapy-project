@@ -1,4 +1,12 @@
 <template>
+  <loading
+    v-model:active="isLoading"
+    :can-cancel="true"
+    :on-cancel="onCancel"
+    :is-full-page="fullPage"
+    loader="dots"
+  >
+  </loading>
   <div class="position-relative">
     <div
       class="position-absolute"
@@ -19,9 +27,9 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="text-center">
-        <table class="table mt-4">
+        <table class="table table-hover align-middle mt-4">
           <thead>
-            <tr>
+            <tr class="table-success" style="background-color: #7fa185">
               <th width="80">序列</th>
               <th>標題</th>
               <th>內容描述</th>
@@ -34,6 +42,7 @@
               <td>{{ index + 1 }}</td>
               <td style="text-align: left; cursor: pointer">
                 <a
+                  style="color: #4e342e"
                   class="text-decoration-none"
                   @click.prevent="getArticle(item.id)"
                   >{{ item.title }}</a
@@ -51,20 +60,24 @@
         <pagination :pages="pages" :get-article="getArticle"></pagination>
       </div>
     </div>
-  </div>
-  <div class="row justify-content-center py-5">
-    <div class="col-md-6">
-      <h3 class="text-center" style="color: #4e342e">{{ article.title }}</h3>
-      <small
-        ><p class="mt-5" style="text-align: right">
-          {{ article.author }}
-        </p></small
-      >
-      <small
-        ><p style="text-align: right">{{ article.create_at }}</p></small
-      >
-      <img :src="article.image" />
-      <p class="my-5" v-html="article.content"></p>
+    <div class="row justify-content-center py-5">
+      <div class="col-md-8">
+        <strong
+          ><h3 class="text-center" style="color: #4e342e">
+            {{ article.title }}
+          </h3></strong
+        >
+        <small
+          ><p class="mt-5 text-end">
+            {{ article.author }}
+          </p></small
+        >
+        <small
+          ><p class="text-end">{{ article.create_at }}</p></small
+        >
+        <img :src="article.image" />
+        <p class="my-5" v-html="article.content"></p>
+      </div>
     </div>
   </div>
 </template>
@@ -73,6 +86,9 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
+import loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
+
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
@@ -80,37 +96,47 @@ export default {
     return {
       articles: [],
       article: [],
+      isLoading: false,
+      fullPage: true,
     };
   },
   methods: {
     // 取得文章列表
     getArticles(page = 1) {
-      // 參數預設值
+      this.isLoading = true;
       const url = `${VITE_URL}/api/${VITE_PATH}/articles?page=${page}`;
       axios
         .get(url)
         .then((response) => {
           this.articles = response.data.articles;
           this.pages = response.data.pagination;
+          this.isLoading = false;
         })
         .catch((err) => {
           Swal.fire(err.response.data.message);
+          this.isLoading = false;
         });
     },
     getArticle(id) {
+      this.isLoading = true;
       const url = `${VITE_URL}/api/${VITE_PATH}/article/${id}`;
       axios
         .get(url)
         .then((response) => {
           this.article = response.data.article;
+          this.isLoading = false;
         })
         .catch((err) => {
           Swal.fire(err.response.data.message);
+          this.isLoading = false;
         });
     },
   },
   mounted() {
     this.getArticles();
+  },
+  components: {
+    loading,
   },
 };
 </script>

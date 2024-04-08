@@ -9,7 +9,7 @@
         <a
           class="page-link"
           aria-label="Previous"
-          @click="getProducts(pages.current_page - 1)"
+          @click="getOrder(pages.current_page - 1)"
         >
           <span aria-hidden="true">&laquo;</span>
         </a>
@@ -21,7 +21,7 @@
         v-for="page in pages.total_pages"
         :key="page + 123"
       >
-        <a class="page-link" @click="getProducts(page)">{{ page }}</a>
+        <a class="page-link" @click="getOrder(page)">{{ page }}</a>
       </li>
       <li
         class="page-item"
@@ -31,7 +31,7 @@
         <a
           class="page-link"
           aria-label="Next"
-          @click="getProducts(pages.current_page + 1)"
+          @click="getOrder(pages.current_page + 1)"
         >
           <span aria-hidden="true">&raquo;</span>
         </a>
@@ -42,6 +42,6 @@
 
 <script>
 export default {
-  props: ["pages", "getProducts"],
+  props: ["pages", "getOrder"],
 };
 </script>

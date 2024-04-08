@@ -40,7 +40,10 @@
           <RouterLink class="nav-item nav-link me-4" to="/login"
             >登入</RouterLink
           >
-          <RouterLink class="btn btn-primary position-relative" to="/cart"
+          <RouterLink
+            class="btn btn-primary position-relative border-0"
+            style="background-color: #7fa185"
+            to="/cart"
             ><i class="bi bi-cart4"></i>
             <span
               class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"

@@ -17,7 +17,7 @@
     <div class="container d-flex flex-column" style="min-height: 50vh"></div>
   </div>
   <div class="container">
-    <div class="row justify-content-center py-7">
+    <div class="row justify-content-center py-5">
       <div class="col-md-6 text-center">
         <h3 style="color: #4e342e">品牌故事</h3>
         <p class="my-5">
@@ -34,14 +34,14 @@
           從每一片樹葉的輕柔中尋找力量。我們的產品精心挑選來自世界各地的天然植物提取物，保證給您最純淨、最自然的呵護。
         </p>
 
-        <p class="my-5">
+        <p class="mt-5">
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           我們希望每一位踏入這裡的人都能夠找到內心的寧靜，尋回遺失的平靜與和諧。無論您是疲憊的商人、忙碌的家庭主婦
           ，還是追求精神富足的自由靈魂，這裡都將是您的港灣，帶您展開一段與自己對話的旅程，與自然和諧共存。讓我們一起開啟心靈之旅，從香氛開始，邁向幸福的新生活。
         </p>
       </div>
     </div>
-    <div class="row justify-content-center py-7">
+    <div class="row justify-content-center pb-5">
       <div class="col-md-6 text-center">
         <h3 style="color: #4e342e">極致工藝</h3>
         <p class="my-5">

@@ -49,7 +49,7 @@
       </tbody>
     </table>
     <!-- 分頁 -->
-    <pagination :pages="pages" :get-coupons="getCoupons"></pagination>
+    <pagination :pages="pages" :get-order="getOrder"></pagination>
   </div>
   <!-- Modal -->
   <!-- <product-modal
@@ -106,8 +106,8 @@ import axios from "axios";
 import { Modal } from "bootstrap";
 import Swal from "sweetalert2";
 
-import pagination from "../../components/PaginationComponents.vue";
-// import couponsModal from '../../components/CouponsModal.vue';
+import pagination from "../../components/OrderPagination.vue";
+
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {

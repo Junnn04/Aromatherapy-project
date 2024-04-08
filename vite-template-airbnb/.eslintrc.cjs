@@ -24,6 +24,6 @@ module.exports = {
     },
     "import/core-modules": ["vite", "@vitejs/plugin-vue"],
   },
-  plugins: ["vue"],
-  rules: {},
+  plugins: ["vue", "prettier"],
+  rules: { "prettier/prettier": "error" },
 };
