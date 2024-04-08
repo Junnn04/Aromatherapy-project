@@ -115,7 +115,7 @@ const { VITE_URL, VITE_PATH } = import.meta.env;
 export default {
   data() {
     return {
-      coupons: [],
+      coupons: {},
       tempCoupons: {},
       pages: {},
       modalCoupons: null,
@@ -181,7 +181,9 @@ export default {
           this.tempCoupons = {};
         })
         .catch((err) => {
-          Swal.fire(err.response.data.message);
+          err.response.data.message.forEach((message) => {
+            Swal.fire(message);
+          });
         });
     },
     delCoupons() {

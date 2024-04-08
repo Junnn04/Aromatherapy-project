@@ -190,7 +190,9 @@ export default {
           this.tempArticle = {};
         })
         .catch((err) => {
-          Swal.fire(err.response.data.message);
+          err.response.data.message.forEach((message) => {
+            Swal.fire(message);
+          });
         });
     },
     delArticle() {

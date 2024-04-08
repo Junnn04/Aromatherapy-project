@@ -33,7 +33,7 @@
                 >
                   <img
                     :src="item.product.imageUrl"
-                    alt=""
+                    :alt="item.product.title"
                     style="width: 72px; height: 72px; object-fit: cover"
                   />
                   <p class="mb-0 fw-bold ms-3">{{ item.product.title }}</p>
