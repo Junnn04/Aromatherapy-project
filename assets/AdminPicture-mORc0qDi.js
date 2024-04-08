@@ -1,1 +1,0 @@
-import{_ as e,c,o}from"./index-SsVEw1IR.js";const t={},r={type:"file",class:"form-control",id:"file",placeholder:"請輸入圖片連結"};function n(s,_){return o(),c("input",r)}const i=e(t,[["render",n]]);export{i as default};
