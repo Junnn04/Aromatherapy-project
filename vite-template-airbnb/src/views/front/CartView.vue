@@ -2,7 +2,6 @@
   <loading
     v-model:active="isLoading"
     :can-cancel="true"
-    :on-cancel="onCancel"
     :is-full-page="fullPage"
     loader="dots"
   >
@@ -12,7 +11,7 @@
       <h3 class="mt-3 mb-4">購物車</h3>
       <div class="row">
         <div class="col-md-8">
-          <table class="table" v-if="carts && carts.carts.length > 0">
+          <table class="table" v-if="carts.carts && carts.carts.length > 0">
             <thead>
               <tr>
                 <th scope="col" class="border-0 ps-0 text-center">品項</th>
@@ -178,15 +177,12 @@
             <swiper
               ref="{swiperRef}"
               :slidesPerView="3"
-              :centeredSlides="true"
               :spaceBetween="30"
               :pagination="{
                 type: 'fraction',
               }"
               :navigation="true"
               :modules="modules"
-              @swiper="onSwiper"
-              @slideChange="onSlideChange"
             >
               <swiper-slide v-for="item in products" :key="item.id">
                 <div class="swiper-slide">

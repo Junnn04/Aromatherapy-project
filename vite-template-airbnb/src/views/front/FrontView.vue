@@ -1,7 +1,9 @@
 <template>
   <div style="min-height: 100vh">
     <NavbarComponents></NavbarComponents>
-    <RouterView style="min-height: 70vh"></RouterView>
+    <div style="min-height: 70vh">
+      <RouterView></RouterView>
+    </div>
     <div class="py-5" style="background-color: #664939">
       <div class="container">
         <div

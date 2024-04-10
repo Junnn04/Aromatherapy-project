@@ -41,17 +41,26 @@ export default defineStore("cartStore", {
         });
     },
     removeCartItem(id) {
-      // this.status.cartQtyLoading = id;
-      const url = `${VITE_URL}/api/${VITE_PATH}/cart/${id}`;
-      axios
-        .delete(url)
-        .then((res) => {
-          Swal.fire(res.data.message);
-          this.getCart();
-        })
-        .catch((err) => {
-          Swal.fire(err.response.data.message);
-        });
+      Swal.fire({
+        title: "確定要從購物車中移除此商品嗎？",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "確認",
+        cancelButtonText: "取消",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const url = `${VITE_URL}/api/${VITE_PATH}/cart/${id}`;
+          axios
+            .delete(url)
+            .then((res) => {
+              Swal.fire(res.data.message);
+              this.getCart();
+            })
+            .catch((err) => {
+              Swal.fire(err.response.data.message);
+            });
+        }
+      });
     },
   },
 });

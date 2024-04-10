@@ -85,6 +85,17 @@ const router = createRouter({
   history: createWebHashHistory(),
   linkActiveClass: "active",
   routes,
+  scrollBehavior() {
+    // 每次切换路由时都将页面滚动到顶部
+    return { x: 0, y: 0 };
+  },
+});
+
+// 监听路由切换前的事件
+router.beforeEach((to, from, next) => {
+  // 手动将页面滚动到顶部
+  window.scrollTo(0, 0);
+  next();
 });
 
 export default router;

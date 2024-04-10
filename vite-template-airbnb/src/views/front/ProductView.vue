@@ -3,7 +3,6 @@
     <loading
       v-model:active="isLoading"
       :can-cancel="true"
-      :on-cancel="onCancel"
       :is-full-page="fullPage"
       loader="dots"
     >
@@ -75,7 +74,6 @@
           <swiper
             ref="{swiperRef}"
             :slidesPerView="3"
-            :centeredSlides="true"
             :spaceBetween="30"
             :pagination="{
               type: 'fraction',
@@ -156,6 +154,14 @@ export default {
     return {
       modules: [Pagination, Navigation],
     };
+  },
+  watch: {
+    "$route.params": {
+      handler() {
+        this.getProduct();
+      },
+      deep: true,
+    },
   },
   methods: {
     // 取得產品

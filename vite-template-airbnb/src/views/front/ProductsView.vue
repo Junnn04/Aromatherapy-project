@@ -2,7 +2,6 @@
   <loading
     v-model:active="isLoading"
     :can-cancel="true"
-    :on-cancel="onCancel"
     :is-full-page="fullPage"
     loader="dots"
   >

@@ -75,6 +75,7 @@
                 </div>
               </div>
             </div>
+            <pre>{{ tempArticle }}</pre>
             <div class="col-sm-8">
               <div class="mb-3">
                 <label for="title" class="form-label">標題</label>
@@ -107,7 +108,8 @@
                     type="date"
                     class="form-control"
                     placeholder="文章建立日期"
-                    v-model="create_at"
+                    v-model="selectedDate"
+                    @change="convertToTimestamp"
                   />
                 </div>
               </div>
@@ -176,8 +178,9 @@ export default {
       modalArticle: null,
       editArticle: {
         content: "",
+        create_at: "",
       },
-      create_at: "",
+      selectedDate: "",
       editor: ClassicEditor,
       editorConfig: { extraPlugins: [] },
     };
@@ -186,13 +189,18 @@ export default {
     tempArticle() {
       this.editArticle = this.tempArticle;
       // 將時間格式改為 YYYY-MM-DD
-      const date = new Date(this.editArticle.create_at * 1000)
-        .toISOString()
-        .split("T");
-      [this.create_at] = date;
+      // const date = new Date(this.editArticle.create_at * 1000)
+      //   .toISOString()
+      //   .split("T");
+      // [this.create_at] = date;
     },
     create_at() {
-      this.editArticle.create_at = Math.floor(new Date(this.create_at) / 1000);
+      // this.editArticle.create_at = Math.floor(new Date(this.create_at) / 1000);
+    },
+    selectedDate() {
+      this.editArticle.create_at = Math.floor(
+        new Date(this.selectedDate) / 1000,
+      );
     },
   },
   methods: {
@@ -202,6 +210,11 @@ export default {
     closeModal() {
       this.modalArticle.hide();
     },
+    // convertToTimestamp() {
+    //   this.editArticle.create_at = Math.floor(
+    //     new Date(this.selectedDate) / 1000,
+    //   );
+    // },
   },
   mounted() {
     this.modalArticle = new Modal(this.$refs.articleModal);

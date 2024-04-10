@@ -24,7 +24,7 @@
         <tr v-for="item in articles" :key="item.id">
           <td>{{ item.title }}</td>
           <td>{{ item.author }}</td>
-          <td>{{ item.create_at }}</td>
+          <td>{{ formatDate(item.create_at) }}</td>
           <td>{{ item.description }}</td>
           <td>
             <span class="text-success" v-if="item.isPublic">已上傳</span>
@@ -120,6 +120,7 @@ export default {
       articles: [],
       tempArticle: {
         tag: "",
+        create_at: "",
       },
       pages: {},
       modalProduct: null,
@@ -142,6 +143,12 @@ export default {
           Swal.fire(err.response.data.message);
         });
     },
+    formatDate(timestamp) {
+      // 創建日期對象
+      const date = new Date(timestamp);
+      // 返回格式化後的日期字符串，您可以根據需要使用不同的日期格式
+      return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+    },
     // 打開新增視窗
     openModal(isNew, item) {
       // 判斷為新增時
@@ -149,7 +156,7 @@ export default {
         // 清空當前tempProduct值
         this.tempArticle = {
           tag: [],
-          create_at: new Date().getTime() / 1000,
+          create_at: new Date().toISOString(),
         };
         // 變更isNew值
         this.isNew = true;

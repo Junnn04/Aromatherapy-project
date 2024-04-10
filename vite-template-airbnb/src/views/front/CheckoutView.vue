@@ -31,7 +31,7 @@
                   >訂購人電話</label
                 >
                 <VField
-                  type="text"
+                  type="tel"
                   class="form-control rounded-0"
                   id="ContactPhone"
                   placeholder="09xxxxxxxx"
