@@ -18,6 +18,9 @@
         class="page-item"
         :class="{ active: page === pages.current_page }"
         style="cursor: pointer; background-color: gray"
+        :style="{
+          backgroundColor: page === pages.current_page ? '#7fa185' : 'gray',
+        }"
         v-for="page in pages.total_pages"
         :key="page + 123"
       >

@@ -17,7 +17,10 @@
       <li
         class="page-item"
         :class="{ active: page === pages.current_page }"
-        style="cursor: pointer; background-color: gray"
+        :style="{
+          backgroundColor: page === pages.current_page ? 'red' : 'gray',
+          cursor: 'pointer',
+        }"
         v-for="page in pages.total_pages"
         :key="page + 123"
       >

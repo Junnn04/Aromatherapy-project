@@ -28,6 +28,28 @@
     <div class="row justify-content-center">
       <div class="text-center">
         <table class="table table-hover align-middle mt-4">
+          <tbody>
+            <tr v-for="item in articles" :key="item.id">
+              <td>
+                <img
+                  :src="item.imageUrl"
+                  :alt="item.title"
+                  style="max-width: 200px"
+                />
+              </td>
+              <td style="text-align: left; cursor: pointer">
+                <a
+                  style="color: #4e342e"
+                  class="text-decoration-none h2"
+                  @click.prevent="getArticle(item.id)"
+                  >{{ item.title }}</a
+                >
+                <p>作者 / {{ item.author }}</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- <table class="table table-hover align-middle mt-4">
           <thead>
             <tr class="table-success" style="background-color: #7fa185">
               <th width="80">序列</th>
@@ -55,7 +77,7 @@
               <td class="d-none d-xl-block">{{ item.create_at }}</td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
         <!-- 分頁 -->
         <pagination :pages="pages" :get-article="getArticle"></pagination>
       </div>

@@ -181,9 +181,7 @@ export default {
           this.tempCoupons = {};
         })
         .catch((err) => {
-          err.response.data.message.forEach((message) => {
-            Swal.fire(message);
-          });
+          Swal.fire(err.response.data.message.join("\n"));
         });
     },
     delCoupons() {

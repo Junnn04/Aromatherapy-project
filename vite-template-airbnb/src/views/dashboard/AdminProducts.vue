@@ -195,9 +195,7 @@ export default {
           this.tempProduct = {};
         })
         .catch((err) => {
-          err.response.data.message.forEach((message) => {
-            Swal.fire(message);
-          });
+          Swal.fire(err.response.data.message.join("\n"));
         });
     },
     delProduct() {

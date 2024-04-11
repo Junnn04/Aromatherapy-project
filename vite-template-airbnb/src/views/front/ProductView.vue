@@ -11,7 +11,12 @@
   <div class="container pt-7">
     <div class="row align-items-center">
       <div class="col-md-6">
-        <swiper :navigation="true" :modules="modules" class="mySwiper">
+        <swiper
+          :navigation="true"
+          :modules="modules"
+          class="mySwiper"
+          style="max-height: 300px"
+        >
           <swiper-slide>
             <img
               :src="product.imageUrl"
@@ -19,16 +24,20 @@
               :alt="product.title"
           /></swiper-slide>
           <swiper-slide v-for="item in product.imagesUrl" :key="item.id"
-            ><img :src="item" class="d-block w-100" :alt="product.title"
+            ><img
+              :src="item"
+              class="d-block w-100"
+              style="max-height: 475px; object-fit: cover"
+              :alt="product.title"
           /></swiper-slide>
         </swiper>
         <div class="row pt-3">
           <div
-            class="col-md-2"
+            class="col-md-2 col-4"
             v-for="item in product.imagesUrl"
             :key="item.id"
           >
-            <img :src="item" width="100px" />
+            <img :src="item" style="max-width: 100%" />
           </div>
         </div>
       </div>
@@ -67,19 +76,36 @@
         </div>
       </div>
     </div>
+    <div class="mt-5">
+      <h3>｜保存說明</h3>
+      <p class="mt-3">
+        建議將產品存放在陰涼乾燥的地方，避免陽光直射。雖然未開封的保存期限標示為八個月，但開封後的保存時間會受到儲存環境的影響，
+        包括開封頻率、光照、溫度和潮濕度等因素。為確保最佳品質，建議在開封後盡快使用產品，並根據個人儲存環境的情況，合理評估使用期限。
+      </p>
+      <h3 class="mt-5">｜注意事項</h3>
+      <p class="mt-3">
+        本產品為純精油，可直接添加至擴香器中或與酒精混合後用於空間擴香。若您選擇自行混合精油和植物油，建議首次使用時以較低濃度進行混合，
+        並在手肘內側皮膚上塗抹適量，觀察是否有過敏反應（如紅腫、癢等）。如未出現過敏反應，可逐漸增加使用濃度和頻率。
+      </p>
+      <p class="mt-3">
+        由於每個人對天然物質的反應各異，若出現不適或過敏反應，應立即停止使用。如果皮膚受到刺激，可使用大量植物油反覆塗抹以降低精油濃度。如有需要，請咨詢專業芳療人員或尋求醫療協助。
+      </p>
+      <p class="mt-3">
+        由於植物受到環境條件的影響，每批產品的氣味、顏色、質地等感官屬性可能會有所不同。這是正常現象，請您在購買前審慎考慮，感謝您的理解與支持！
+      </p>
+    </div>
     <div class="my-5">
       <h3 class="fw-bold">其他商品</h3>
       <div class="swiper-container mt-4 mb-5">
         <div class="swiper-wrapper">
           <swiper
-            ref="{swiperRef}"
             :slidesPerView="3"
             :spaceBetween="30"
             :pagination="{
-              type: 'fraction',
+              clickable: true,
             }"
-            :navigation="true"
             :modules="modules"
+            class="mySwiper"
           >
             <swiper-slide v-for="item in products" :key="item.id">
               <RouterLink
@@ -96,13 +122,15 @@
                       <h4 class="mb-0 mt-3 fw-bold" style="color: #4e342e">
                         {{ item.title }}
                       </h4>
-                      <p class="card-text mb-0 text-primary-emphasis">
-                        NT${{ item.price }}
-                      </p>
-                      <p class="text-muted">
-                        <span class="text-muted">
-                          <del>NT${{ item.origin_price }}</del></span
+                      <p class="text-muted mb-0">
+                        <small
+                          ><span class="text-muted">
+                            <del>NT${{ item.origin_price }}</del></span
+                          ></small
                         >
+                      </p>
+                      <p class="card-text text-primary-emphasis">
+                        NT${{ item.price }}
                       </p>
                     </div>
                   </div>

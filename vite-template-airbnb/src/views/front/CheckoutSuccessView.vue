@@ -1,8 +1,8 @@
 <template>
-  <div class="container">
+  <div class="container pt-5">
     <div
       style="
-        min-height: 400px;
+        min-height: 200px;
         background-image: url(https://i.postimg.cc/90RrG1N3/bg-Image-Enhancer.jpg);
         background-repeat: no-repeat;
         background-size: 100% auto;
@@ -18,7 +18,7 @@
             請隨時與我們聯繫。期待您再次光臨，我們將竭誠為您服務。
           </p>
           <RouterLink
-            class="btn btn-dark btn-block mt-2 py-1 border-0"
+            class="btn btn-dark btn-block mt-2 mb-5 py-1 border-0"
             to="/"
             style="background-color: #7fa185"
           >
@@ -60,13 +60,24 @@
                 </li>
                 <li class="list-group-item px-0 pb-0">
                   <table class="table text-muted">
-                    <tbody>
+                    <tbody v-for="item in order" :key="item.id">
                       <tr>
                         <th
                           scope="row"
                           class="border-0 px-0 font-weight-normal"
                         >
                           小計
+                        </th>
+                        <td class="text-end border-0 px-0">
+                          NT${{ item.total }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th
+                          scope="row"
+                          class="border-0 px-0 font-weight-normal"
+                        >
+                          折扣
                         </th>
                         <td class="text-end border-0 px-0">NT${{}}</td>
                       </tr>
@@ -77,7 +88,9 @@
                         >
                           支付方式
                         </th>
-                        <td class="text-end border-0 px-0 pt-0">ApplePay</td>
+                        <td class="text-end border-0 px-0 pt-0">
+                          {{ this.checked }}
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -96,34 +109,44 @@
 </template>
 
 <script>
-import axios from "axios";
-import Swal from "sweetalert2";
+// import axios from "axios";
+// import Swal from "sweetalert2";
 
-const { VITE_URL, VITE_PATH } = import.meta.env;
+// const { VITE_URL, VITE_PATH } = import.meta.env;
+
+import { mapActions, mapState } from "pinia";
+import order from "@/stores/order";
 
 export default {
   data() {
     return {
-      orderId: "",
-      order: [],
+      // orderId: "",
+      // order: [],
     };
   },
+  computed: {
+    ...mapState(order, ["order"]),
+    ...mapState(order, ["orderId"]),
+  },
   methods: {
-    // 取得購物車資訊
-    getOrder() {
-      const url = `${VITE_URL}/api/${VITE_PATH}/order/${this.orderId}`;
-      axios
-        .get(url)
-        .then((res) => {
-          this.order = res.data.order.products;
-        })
-        .catch((err) => {
-          Swal.fire(err.response.data.message);
-        });
-    },
+    // 取得訂單資訊
+    ...mapActions(order, ["getOrder"]),
+    // getOrder() {
+    //   console.log(this.orderId);
+    //   const url = `${VITE_URL}/api/${VITE_PATH}/order/${this.orderId}`;
+    //   axios
+    //     .get(url)
+    //     .then((res) => {
+    //       this.order = res.data.order.products;
+    //     })
+    //     .catch((err) => {
+    //       Swal.fire(err.response.data.message);
+    //     });
+    // },
   },
   mounted() {
-    this.Order();
+    this.getOrder();
+    this.checked = localStorage.getItem("payment");
   },
   created() {
     this.orderId = this.$route.params.orderId; // 從路由取得訂單 id

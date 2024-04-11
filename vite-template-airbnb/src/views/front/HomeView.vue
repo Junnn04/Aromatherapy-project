@@ -1,8 +1,4 @@
 <template>
-  <!-- <loading v-model:active="isLoading"
-               :can-cancel="true"
-               :on-cancel="onCancel"
-               :is-full-page="fullPage"/> -->
   <div class="position-relative">
     <div
       class="position-absolute z-n1"
@@ -16,33 +12,13 @@
         opacity: 0.3;
       "
     ></div>
-    <div class="container d-flex flex-column" style="min-height: 100vh">
-      <!-- <nav class="navbar navbar-expand-lg navbar-light">
-          <a class="navbar-brand" href="./index.html">Navbar</a>
-          <button class="navbar-toggler" type="button"
-           data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-              <a class="nav-item nav-link me-4 active" href="./index.html">
-                Home <span class="sr-only">(current)</span></a>
-              <a class="nav-item nav-link me-4" href="./product.html">Product</a>
-              <a class="nav-item nav-link me-4" href="./detail.html">Detail</a>
-              <a class="nav-item nav-link" href="./cart.html">
-                <i class="fas fa-shopping-cart"></i></a>
-            </div>
-          </div>
-        </nav> -->
+    <div class="container d-flex flex-column" style="min-height: 80vh">
       <div class="row justify-content-center my-auto">
         <div class="col-md-4 text-center">
           <h2>從香氛開始，創造美好生活。</h2>
           <p class="text-muted mb-0">
             每一種香氣都是一段故事的開始，我們追求的不僅僅是生活，更是一種與自我對話的方式。
           </p>
-          <!-- <RouterLink class="btn btn-dark rounded-0 mt-6" to="/products">
-                走進香氛</RouterLink> -->
           <button type="button" class="btn btn-dark rounded-0 mt-6 z-3">
             <RouterLink
               class="text-decoration-none"
@@ -142,16 +118,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="carousel-item">
-              <div class="row justify-content-center py-7">
-                <div class="col-md-6 text-center">
-                  <h3>關於</h3>
-                  <p class="my-5">我們的故事源自於對大自然的尊重與感恩，我們從每一滴花朵的芬芳中汲取靈感
-                    ，從每一片樹葉的輕柔中尋找力量。我們的產品精心挑選來自世界各地的天然植物提取物，保證給您最純淨、最自然的呵護。</p>
-                  <p><small>—Lorem ipsum dolor sit amet.—</small></p>
-                </div>
-              </div>
-            </div> -->
         </div>
       </div>
     </div>
@@ -193,53 +159,112 @@
         </div>
       </div>
     </RouterLink>
-  </div>
-  <!-- <div class="bg-light py-4">
-      <div class="container">
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center
-         align-items-start">
-          <p class="mb-0 fw-bold">Lorem ipsum dolor sit amet.</p>
-          <div class="input-group w-md-50 mt-md-0 mt-3">
-            <input type="text" class="form-control rounded-0" placeholder="" />
-            <div class="input-group-append">
-              <button class="btn btn-dark rounded-0" type="button" id="search">
-                Lorem ipsum
-              </button>
-            </div>
-          </div>
+    <div class="my-5">
+      <h3 class="fw-bold">人氣商品</h3>
+      <div class="swiper-container mt-4 mb-5">
+        <div class="swiper-wrapper">
+          <swiper
+            :slidesPerView="3"
+            :spaceBetween="30"
+            :pagination="{
+              clickable: true,
+            }"
+            :modules="modules"
+            class="mySwiper"
+          >
+            <swiper-slide v-for="item in products" :key="item.id">
+              <RouterLink
+                class="text-decoration-none"
+                :to="`/product/${item.id}`"
+              >
+                <div class="swiper-slide">
+                  <div
+                    class="card border-0 mb-4 position-relative position-relative"
+                  >
+                    <img :src="item.imageUrl" class="card-img-top rounded-0" />
+                    <a href="#" class="text-dark"> </a>
+                    <div class="card-body p-0">
+                      <h4 class="mb-0 mt-3 fw-bold" style="color: #4e342e">
+                        {{ item.title }}
+                      </h4>
+                      <p class="text-muted mb-0">
+                        <small
+                          ><span class="text-muted">
+                            <del>NT${{ item.origin_price }}</del></span
+                          ></small
+                        >
+                      </p>
+                      <p class="card-text text-primary-emphasis">
+                        NT${{ item.price }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </RouterLink></swiper-slide
+            >
+          </swiper>
         </div>
       </div>
-    </div> -->
+    </div>
+  </div>
 </template>
 
-<!-- <script>
-import loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/css/index.css';
+<script>
+import axios from "axios";
+import Swal from "sweetalert2";
+
+import { Swiper, SwiperSlide } from "swiper/vue";
+
+// Import Swiper styles
+import "swiper/css";
+
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+
+// import required modules
+import { Pagination, Navigation } from "swiper/modules";
+
+const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
   data() {
     return {
-      isLoading: false,
-      fullPage: true,
+      products: [],
     };
   },
-  components: {
-    loading,
+  setup() {
+    return {
+      modules: [Pagination, Navigation],
+    };
+  },
+  watch: {
+    "$route.params": {
+      handler() {
+        this.getProduct();
+      },
+      deep: true,
+    },
   },
   methods: {
-    doAjax() {
-      this.isLoading = true;
-      // simulate AJAX
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 3000);
-    },
-    onCancel() {
-      console.log('User cancelled the loader.');
+    // swiper_取得產品列表
+    getProducts() {
+      const url = `${VITE_URL}/api/${VITE_PATH}/products`;
+      axios
+        .get(url)
+        .then((response) => {
+          this.products = response.data.products;
+        })
+        .catch((err) => {
+          Swal.fire(err.response.data.message);
+        });
     },
   },
   mounted() {
-    this.doAjax();
+    this.getProducts();
+  },
+  components: {
+    Swiper,
+    SwiperSlide,
   },
 };
-</script> -->
+</script>

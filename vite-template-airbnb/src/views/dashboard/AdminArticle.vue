@@ -109,7 +109,7 @@ import axios from "axios";
 import { Modal } from "bootstrap";
 import Swal from "sweetalert2";
 
-import pagination from "../../components/PaginationComponents.vue";
+import pagination from "../../components/ArticlesPagination.vue";
 import articleModal from "../../components/ArticleModal.vue";
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
@@ -197,9 +197,7 @@ export default {
           this.tempArticle = {};
         })
         .catch((err) => {
-          err.response.data.message.forEach((message) => {
-            Swal.fire(message);
-          });
+          Swal.fire(err.response.data.message.join("\n"));
         });
     },
     delArticle() {

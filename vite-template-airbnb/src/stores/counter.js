@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
-export default defineStore('counter', {
+export default defineStore("counter", {
   state: () => ({ count: 0 }),
   actions: {
     increment() {

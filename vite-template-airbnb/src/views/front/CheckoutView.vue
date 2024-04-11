@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row justify-content-center flex-md-row flex-column-reverse">
         <div class="col-md-6">
-          <VForm ref="form" v-slot="{ errors }" @submit="createOrder">
+          <VForm ref="form" v-slot="{ errors }" @submit="handleSubmit">
             <div class="bg-white p-4">
               <h4 class="fw-bold">1. 訂購資訊</h4>
               <p class="mt-4">聯絡資訊</p>
@@ -109,7 +109,7 @@
                   name="gridRadios"
                   id="gridRadios1"
                   value="credit card"
-                  v-model="checked"
+                  v-model="this.checked"
                 />
                 <label class="form-check-label text-muted" for="gridRadios1"
                   >credit card
@@ -122,7 +122,7 @@
                   name="gridRadios"
                   id="gridRadios2"
                   value="WebATM"
-                  v-model="checked"
+                  v-model="this.checked"
                 />
                 <label class="form-check-label text-muted" for="gridRadios2"
                   >WebATM
@@ -135,7 +135,7 @@
                   name="gridRadios"
                   id="gridRadios3"
                   value="ApplePay"
-                  v-model="checked"
+                  v-model="this.checked"
                 />
                 <label class="form-check-label text-muted" for="gridRadios3"
                   >ApplePay
@@ -204,7 +204,7 @@
                     折扣
                   </th>
                   <td class="text-end border-0 px-0 pt-0 pb-4">
-                    {{ carts.final_total - carts.total }}
+                    {{ Math.round(carts.final_total - carts.total) }}
                   </td>
                 </tr>
                 <tr>
@@ -215,14 +215,16 @@
                     支付方式
                   </th>
                   <td class="text-end border-0 px-0 pt-0 pb-4">
-                    {{ checked }}
+                    {{ this.checked }}
                   </td>
                 </tr>
               </tbody>
             </table>
             <div class="d-flex justify-content-between mt-4">
               <p class="mb-0 h4 fw-bold">結帳金額</p>
-              <p class="mb-0 h4 fw-bold">NT${{ carts.final_total }}</p>
+              <p class="mb-0 h4 fw-bold">
+                NT${{ Math.round(carts.final_total) }}
+              </p>
             </div>
           </div>
         </div>
@@ -234,6 +236,9 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
+
+import { mapActions } from "pinia";
+import order from "@/stores/order";
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
@@ -270,19 +275,33 @@ export default {
         });
     },
     // 確認提交訂單
-    createOrder() {
-      const url = `${VITE_URL}/api/${VITE_PATH}/order`;
-      const order = this.form;
-      axios
-        .post(url, { data: order })
-        .then((res) => {
-          this.$router.push(`/Checkout/${res.data.orderId}`);
-          this.$refs.form.resetForm();
+    ...mapActions(order, ["createOrder"]),
+    handleSubmit() {
+      // 在组件中调用 store 中的方法，并传递表单数据
+      this.createOrder(this.form)
+        .then((orderId) => {
+          // 在网络请求成功后执行路由导航
+          this.$router.push(`/Checkout/${orderId}`);
+          localStorage.setItem("payment", this.checked);
         })
         .catch((err) => {
+          // 处理错误情况
           Swal.fire(err.response.data.message);
         });
     },
+    // createOrder() {
+    //   const url = `${VITE_URL}/api/${VITE_PATH}/order`;
+    //   const order = this.form;
+    //   axios
+    //     .post(url, { data: order })
+    //     .then((res) => {
+    //       this.$router.push(`/Checkout/${res.data.orderId}`);
+    //       this.$refs.form.resetForm();
+    //     })
+    //     .catch((err) => {
+    //       Swal.fire(err.response.data.message);
+    //     });
+    // },
     updateRememberEmail() {
       if (this.rememberEmail) {
         // 如果 checkbox 被選中，則將 email 存儲到 localStorage
@@ -317,10 +336,7 @@ export default {
   mounted() {
     this.getCart();
     // 在頁面加載時檢查 localStorage 中是否已經存儲了 email
-    const storedEmail = localStorage.getItem("rememberEmail");
-    if (storedEmail) {
-      this.rememberEmail = true;
-    }
+    this.form.user.email = localStorage.getItem("rememberEmail");
   },
 };
 </script>

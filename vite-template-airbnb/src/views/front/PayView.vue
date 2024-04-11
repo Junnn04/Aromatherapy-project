@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-5">
+  <div class="container pt-7">
     <div class="row justify-content-center">
       <div class="col-md-10">
         <h3 class="fw-bold mb-4 pt-3">付款</h3>
@@ -23,22 +23,24 @@
               <p class="mb-0 fw-bold">x{{ item.qty }}</p>
             </div>
           </div>
-          <table class="table mt-4 border-top border-bottom text-muted">
+          <table
+            class="table mt-4 border-top border-bottom text-muted"
+            v-for="item in order"
+            :key="item.id"
+          >
             <tbody>
               <tr>
                 <th scope="row" class="border-0 px-0 pt-4 font-weight-normal">
                   小計
                 </th>
-                <td class="text-end border-0 px-0 pt-4">
-                  NT${{ order.total }}
-                </td>
+                <td class="text-end border-0 px-0 pt-4">NT${{ item.total }}</td>
               </tr>
               <tr>
                 <th scope="row" class="border-0 px-0 pt-4 font-weight-normal">
                   折扣
                 </th>
                 <td class="text-end border-0 px-0 pt-4">
-                  NT${{ order.final_total - order.total }}
+                  NT${{ item.final_total - item.total }}
                 </td>
               </tr>
               <tr>
@@ -48,13 +50,15 @@
                 >
                   支付方式
                 </th>
-                <td class="text-end border-0 px-0 pt-0 pb-4">ApplePay</td>
+                <td class="text-end border-0 px-0 pt-0 pb-4">
+                  {{ this.checked }}
+                </td>
               </tr>
             </tbody>
           </table>
           <div class="d-flex justify-content-between mt-4">
             <p class="mb-0 h4 fw-bold">結帳金額</p>
-            <p class="mb-0 h4 fw-bold">NT${{ order.final_total }}</p>
+            <p class="mb-0 h4 fw-bold">NT${{ this.order.final_total }}</p>
           </div>
         </div>
       </div>
@@ -232,25 +236,31 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
+// import { mapActions } from "pinia";
+// import order from "@/stores/order";
+
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
   data() {
     return {
-      orderId: "",
+      // orderId: "",
       order: [],
-      from: {
+      form: {
         is_paid: false,
       },
+      checked: "",
     };
   },
   methods: {
+    // ...mapActions(order, ["getOrder"]),
     getOrder() {
       const url = `${VITE_URL}/api/${VITE_PATH}/order/${this.orderId}`;
       axios
         .get(url)
         .then((res) => {
           this.order = res.data.order.products;
+          console.log(this.order);
         })
         .catch((err) => {
           Swal.fire(err.response.data.message);
@@ -258,6 +268,7 @@ export default {
     },
     payOrder() {
       const url = `${VITE_URL}/api/${VITE_PATH}/pay/${this.orderId}`;
+      console.log("payOrder", url);
       axios
         .post(url)
         .then(() => {
@@ -271,8 +282,13 @@ export default {
     },
   },
   created() {
-    this.orderId = this.$route.params.orderId; // 從路由取得訂單 id
-    this.getOrder();
+    // const orderStore = useStore(order);
+    // this.orderId = orderStore.orderId;
+    // // 从路由参数中获取订单 ID
+    this.orderId = this.$route.params.orderId;
+    this.getOrder(); // 调用获取订单详情的方法
+    console.log(this.order);
+    this.checked = localStorage.getItem("payment");
   },
 };
 </script>

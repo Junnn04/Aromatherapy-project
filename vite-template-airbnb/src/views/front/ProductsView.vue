@@ -87,6 +87,7 @@
         <div class="row">
           <div class="col-md-6" v-for="item in products" :key="item.id">
             <RouterLink
+              :class="{ active: item === item.id }"
               class="text-decoration-none"
               :to="`/product/${item.id}`"
             >

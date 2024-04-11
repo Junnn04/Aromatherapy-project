@@ -58,11 +58,8 @@
 </template>
 
 <script>
-// import axios from 'axios';
 import { mapActions, mapState } from "pinia";
 import cartStore from "../stores/cartStore";
-
-// const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
   computed: {
@@ -70,20 +67,16 @@ export default {
   },
   methods: {
     ...mapActions(cartStore, ["getCart"]),
-    // getCart() {
-    //   axios.get(`${VITE_URL}/api/${VITE_PATH}/cart`)
-    //     .then((response) => {
-    //       console.log(response);
-    //       this.cart = response.data.data;
-    //       console.log(this.cart);
-    //     })
-    //     .catch((err) => {
-    //       alert(err.message);
-    //     });
-    // },
   },
   mounted() {
     this.getCart();
+  },
+  created() {
+    // 在 Vue Router 的导航守卫中监听页面切换
+    this.$router.afterEach(() => {
+      // 隐藏导航栏
+      document.getElementById("navbarNavAltMarkup").classList.remove("show");
+    });
   },
 };
 </script>

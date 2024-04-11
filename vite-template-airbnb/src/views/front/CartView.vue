@@ -9,9 +9,9 @@
   <div class="container pt-7">
     <div class="mt-3">
       <h3 class="mt-3 mb-4">購物車</h3>
-      <div class="row">
+      <div class="row" v-if="carts.carts && carts.carts.length > 0">
         <div class="col-md-8">
-          <table class="table" v-if="carts.carts && carts.carts.length > 0">
+          <table class="table">
             <thead>
               <tr>
                 <th scope="col" class="border-0 ps-0 text-center">品項</th>
@@ -97,19 +97,7 @@
               </tr>
             </tbody>
           </table>
-          <div v-else>
-            <div class="text-center py-7">
-              <i class="bi bi-exclamation-octagon" style="font-size: 5rem"></i>
-              <p>購物車內無商品</p>
-              <RouterLink
-                class="btn btn-secondary mt-4 border-0"
-                to="/Products"
-              >
-                前往挑選商品</RouterLink
-              >
-            </div>
-          </div>
-          <div class="input-group w-50 mb-3">
+          <div class="input-group mb-3">
             <input
               type="text"
               class="form-control rounded-0 border-bottom border-top-0 border-start-0 border-end-0 shadow-none"
@@ -151,14 +139,16 @@
                     折扣
                   </th>
                   <td class="text-end border-0 px-0 pt-0 pb-4">
-                    {{ carts.final_total - carts.total }}
+                    {{ Math.round(carts.final_total - carts.total) }}
                   </td>
                 </tr>
               </tbody>
             </table>
             <div class="d-flex justify-content-between mt-4">
               <p class="mb-0 h4 fw-bold">總額</p>
-              <p class="mb-0 h4 fw-bold">NT${{ carts.final_total }}</p>
+              <p class="mb-0 h4 fw-bold">
+                NT${{ Math.round(carts.final_total) }}
+              </p>
             </div>
             <RouterLink
               class="btn btn-dark w-100 mt-4 border-0"
@@ -168,6 +158,19 @@
               去買單</RouterLink
             >
           </div>
+        </div>
+      </div>
+      <div v-else>
+        <div class="text-center py-7">
+          <i class="bi bi-exclamation-octagon" style="font-size: 5rem"></i>
+          <p>購物車內無商品</p>
+          <RouterLink
+            class="btn btn-secondary mt-4 border-0"
+            to="/Products"
+            style="background-color: #7fa185"
+          >
+            前往挑選商品</RouterLink
+          >
         </div>
       </div>
       <div class="my-5">
@@ -230,7 +233,7 @@ import Swal from "sweetalert2";
 import loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
 import cartStore from "@/stores/cartStore";
 import { Swiper, SwiperSlide } from "swiper/vue";
 
@@ -260,6 +263,9 @@ export default {
     return {
       modules: [Navigation, Pagination, Scrollbar, A11y],
     };
+  },
+  computed: {
+    ...mapState(cartStore, ["carts"]),
   },
   methods: {
     // 取得購物車列表
@@ -316,7 +322,6 @@ export default {
         .post(url, { data: useCoupon })
         .then((response) => {
           Swal.fire(response.data.message);
-          // alert(response.data.message);
           this.getCart();
         })
         .catch((err) => {
