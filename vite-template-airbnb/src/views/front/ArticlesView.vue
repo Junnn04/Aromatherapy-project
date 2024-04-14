@@ -40,11 +40,12 @@
               <td style="text-align: left; cursor: pointer">
                 <a
                   style="color: #4e342e"
-                  class="text-decoration-none h2"
+                  class="text-decoration-none h2 d-block text-start"
                   @click.prevent="getArticle(item.id)"
-                  >{{ item.title }}</a
                 >
-                <p>作者 / {{ item.author }}</p>
+                  {{ item.title }}
+                  <p>作者 / {{ item.author }}</p></a
+                >
               </td>
             </tr>
           </tbody>
@@ -90,13 +91,11 @@
           </h3></strong
         >
         <small
-          ><p class="mt-5 text-end">
-            {{ article.author }}
-          </p></small
+          ><p class="mt-5 text-end">作者 / {{ article.author }}</p></small
         >
-        <small
+        <!-- <small
           ><p class="text-end">{{ article.create_at }}</p></small
-        >
+        > -->
         <img :src="article.image" />
         <p class="my-5" v-html="article.content"></p>
       </div>
