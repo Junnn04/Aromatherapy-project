@@ -2,6 +2,9 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import Swal from "sweetalert2";
 
+// import loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
+
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default defineStore("cartStore", {
@@ -9,20 +12,24 @@ export default defineStore("cartStore", {
     carts: [],
     qty: 1,
     final_total: 0,
-    tatol: 0,
+    total: 0,
+    isLoading: false,
   }),
   actions: {
     // 等同methods
     getCart() {
+      this.isLoading = true;
       axios
         .get(`${VITE_URL}/api/${VITE_PATH}/cart`)
         .then((response) => {
           this.carts = response.data.data.carts;
           this.final_total = response.data.data.final_total;
-          this.tatol = response.data.data.tatol;
+          this.total = response.data.data.total;
+          this.isLoading = false;
         })
         .catch((err) => {
           Swal.fire(err.response.data.message);
+          this.isLoading = false;
         });
     },
     addToCart(id, qty = 1) {

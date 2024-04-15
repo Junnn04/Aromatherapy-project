@@ -145,8 +145,8 @@ export default {
     },
     formatDate(timestamp) {
       // 創建日期對象
-      const date = new Date(timestamp);
-      // 返回格式化後的日期字符串，您可以根據需要使用不同的日期格式
+      const date = new Date(timestamp * 1000);
+      // 返回格式化後的日期字符串，根據需要使用不同的日期格式
       return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
     },
     // 打開新增視窗

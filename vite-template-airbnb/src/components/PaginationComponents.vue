@@ -18,7 +18,6 @@
         class="page-item"
         :class="{ active: page === pages.current_page }"
         :style="{
-          backgroundColor: page === pages.current_page ? 'red' : 'gray',
           cursor: 'pointer',
         }"
         v-for="page in pages.total_pages"
@@ -46,5 +45,12 @@
 <script>
 export default {
   props: ["pages", "getProducts"],
+  data() {
+    return {
+      isFocused: false,
+      linkColor: "white", // 定义链接颜色
+      focusColor: "blue", // 定义聚焦时的颜色
+    };
+  },
 };
 </script>

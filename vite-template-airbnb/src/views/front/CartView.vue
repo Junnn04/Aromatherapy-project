@@ -9,7 +9,7 @@
   <div class="container pt-7">
     <div class="mt-3">
       <h3 class="mt-3 mb-4">購物車</h3>
-      <div class="row" v-if="carts.carts && carts.carts.length > 0">
+      <div class="row" v-if="this.carts && this.carts.length > 0">
         <div class="col-md-8">
           <table class="table">
             <thead>
@@ -23,7 +23,7 @@
             <tbody>
               <tr
                 class="border-bottom border-top"
-                v-for="item in carts.carts"
+                v-for="item in this.carts"
                 :key="item.id"
               >
                 <th
@@ -128,7 +128,7 @@
                     訂單金額
                   </th>
                   <td class="text-end border-0 px-0 pt-4">
-                    NT${{ carts.total }}
+                    NT${{ this.total }}
                   </td>
                 </tr>
                 <tr>
@@ -139,7 +139,7 @@
                     折扣
                   </th>
                   <td class="text-end border-0 px-0 pt-0 pb-4">
-                    {{ Math.round(carts.final_total - carts.total) }}
+                    {{ Math.round(this.final_total - this.total) }}
                   </td>
                 </tr>
               </tbody>
@@ -147,7 +147,7 @@
             <div class="d-flex justify-content-between mt-4">
               <p class="mb-0 h4 fw-bold">總額</p>
               <p class="mb-0 h4 fw-bold">
-                NT${{ Math.round(carts.final_total) }}
+                NT${{ Math.round(this.final_total) }}
               </p>
             </div>
             <RouterLink
@@ -252,11 +252,10 @@ export default {
   data() {
     return {
       products: [],
-      carts: {},
+      // carts: {},
       coupon_code: "",
       isLoading: false,
       fullPage: true,
-      onCancel: true,
     };
   },
   setup() {
@@ -266,24 +265,27 @@ export default {
   },
   computed: {
     ...mapState(cartStore, ["carts"]),
+    ...mapState(cartStore, ["final_total"]),
+    ...mapState(cartStore, ["total"]),
   },
   methods: {
     // 取得購物車列表
-    getCart() {
-      // 參數預設值
-      this.isLoading = true;
-      const url = `${VITE_URL}/api/${VITE_PATH}/cart`;
-      axios
-        .get(url)
-        .then((response) => {
-          this.carts = response.data.data;
-          this.isLoading = false;
-        })
-        .catch((err) => {
-          Swal.fire(err.response.data.message);
-          this.isLoading = false;
-        });
-    }, // 調整商品數量
+    ...mapActions(cartStore, ["getCart"]),
+    // getCart() {
+    //   // 參數預設值
+    //   this.isLoading = true;
+    //   const url = `${VITE_URL}/api/${VITE_PATH}/cart`;
+    //   axios
+    //     .get(url)
+    //     .then((response) => {
+    //       this.carts = response.data.data;
+    //       this.isLoading = false;
+    //     })
+    //     .catch((err) => {
+    //       Swal.fire(err.response.data.message);
+    //       this.isLoading = false;
+    //     });
+    // }, // 調整商品數量
     changeCartQty(item, qty = 1) {
       const order = {
         product_id: item.product_id,

@@ -79,7 +79,9 @@
                         >
                           折扣
                         </th>
-                        <td class="text-end border-0 px-0">NT${{}}</td>
+                        <td class="text-end border-0 px-0">
+                          NT${{ item.final_total - item.total }}
+                        </td>
                       </tr>
                       <tr>
                         <th
@@ -94,9 +96,13 @@
                       </tr>
                     </tbody>
                   </table>
-                  <div class="d-flex justify-content-between mt-2">
+                  <div
+                    class="d-flex justify-content-between mt-2"
+                    v-for="item in order"
+                    :key="item.id"
+                  >
                     <p class="mb-0 h4 fw-bold">結帳金額</p>
-                    <p class="mb-0 h4 fw-bold">NT${{}}</p>
+                    <p class="mb-0 h4 fw-bold">NT${{ item.final_total }}</p>
                   </div>
                 </li>
               </ul>

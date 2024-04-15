@@ -23,7 +23,7 @@
         <tr v-for="item in coupons" :key="item.id">
           <td>{{ item.title }}</td>
           <td>{{ item.percent }}</td>
-          <td>{{ item.due_date }}</td>
+          <td>{{ formatDate(item.due_date) }}</td>
           <td>
             <span class="text-success" v-if="item.is_enabled">啟用</span>
             <span v-else>未啟用</span>
@@ -136,6 +136,12 @@ export default {
         .catch((err) => {
           Swal.fire(err.response.data.message);
         });
+    },
+    formatDate(timestamp) {
+      // 創建日期對象
+      const date = new Date(timestamp * 1000);
+      // 返回格式化後的日期字符串，根據需要使用不同的日期格式
+      return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
     },
     // 打開新增視窗
     openModal(isNew, item) {

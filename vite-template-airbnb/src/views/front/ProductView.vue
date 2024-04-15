@@ -15,7 +15,7 @@
           :navigation="true"
           :modules="modules"
           class="mySwiper"
-          style="max-height: 300px"
+          style="max-height: 500px"
         >
           <swiper-slide>
             <img

@@ -91,7 +91,7 @@
           </h3></strong
         >
         <small
-          ><p class="mt-5 text-end">作者 / {{ article.author }}</p></small
+          ><p class="mt-5 text-end">{{ article.author }}</p></small
         >
         <!-- <small
           ><p class="text-end">{{ article.create_at }}</p></small

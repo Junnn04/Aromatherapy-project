@@ -87,7 +87,7 @@ const router = createRouter({
   routes,
   scrollBehavior() {
     // 每次切换路由时都将页面滚动到顶部
-    return { x: 0, y: 0 };
+    return { top: 0 };
   },
 });
 

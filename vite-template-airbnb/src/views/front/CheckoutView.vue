@@ -15,14 +15,14 @@
                   type="text"
                   class="form-control rounded-0"
                   id="ContactName"
-                  name="name"
+                  name="姓名"
                   placeholder="Carmen A. Rose"
                   rules="required"
                   v-model="form.user.name"
-                  :class="{ 'is-invalid': errors['name'] }"
+                  :class="{ 'is-invalid': errors['姓名'] }"
                 ></VField>
                 <error-message
-                  name="name"
+                  name="姓名"
                   class="invalid-feedback"
                 ></error-message>
               </div>
@@ -30,18 +30,19 @@
                 <label for="ContactPhone" class="text-muted mb-0 form-label"
                   >訂購人電話</label
                 >
+                <!-- rules="required|min:10|max:10" -->
                 <VField
                   type="tel"
                   class="form-control rounded-0"
                   id="ContactPhone"
                   placeholder="09xxxxxxxx"
-                  rules="required|min:10|max:10"
+                  :rules="isPhone"
                   v-model="form.user.tel"
-                  :class="{ 'is-invalid': errors['tel'] }"
-                  name="tel"
+                  :class="{ 'is-invalid': errors['電話'] }"
+                  name="電話"
                 ></VField>
                 <error-message
-                  name="tel"
+                  name="電話"
                   class="invalid-feedback"
                 ></error-message>
               </div>
@@ -89,14 +90,14 @@
                     type="text"
                     class="form-control"
                     id="Contactaddress"
-                    name="address"
-                    :class="{ 'is-invalid': errors['address'] }"
+                    name="地址"
+                    :class="{ 'is-invalid': errors['地址'] }"
                     placeholder="請輸入地址"
                     rules="required"
                     v-model="form.user.address"
                   ></VField>
                   <error-message
-                    name="address"
+                    name="地址"
                     class="invalid-feedback"
                   ></error-message>
                 </div>
@@ -302,6 +303,10 @@ export default {
     //       Swal.fire(err.response.data.message);
     //     });
     // },
+    isPhone(value) {
+      const phoneNumber = /^(09)[0-9]{8}$/;
+      return phoneNumber.test(value) ? true : "請輸入正確的電話號碼";
+    },
     updateRememberEmail() {
       if (this.rememberEmail) {
         // 如果 checkbox 被選中，則將 email 存儲到 localStorage

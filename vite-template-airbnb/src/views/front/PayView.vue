@@ -56,9 +56,13 @@
               </tr>
             </tbody>
           </table>
-          <div class="d-flex justify-content-between mt-4">
+          <div
+            class="d-flex justify-content-between mt-4"
+            v-for="item in order"
+            :key="item.id"
+          >
             <p class="mb-0 h4 fw-bold">結帳金額</p>
-            <p class="mb-0 h4 fw-bold">NT${{ this.order.final_total }}</p>
+            <p class="mb-0 h4 fw-bold">NT${{ item.final_total }}</p>
           </div>
         </div>
       </div>
@@ -93,13 +97,13 @@
                       type="text"
                       class="form-control"
                       id="creditCardNum"
-                      name="creditCard"
+                      name="信用卡號"
                       placeholder="xxxx xxxx xxxx xxxx"
                       rules="required|credit_card"
-                      :class="{ 'is-invalid': errors['creditCard'] }"
+                      :class="{ 'is-invalid': errors['信用卡號'] }"
                     ></VField>
                     <error-message
-                      name="creditCard"
+                      name="信用卡號"
                       class="invalid-feedback"
                     ></error-message>
                   </div>
@@ -112,12 +116,12 @@
                       class="form-control"
                       id="checkNum"
                       placeholder="xxx"
-                      rules="required|min:3|max:3"
-                      :class="{ 'is-invalid': errors['checkNum'] }"
-                      name="checkNum"
+                      :rules="ischeckNum"
+                      :class="{ 'is-invalid': errors['檢查碼'] }"
+                      name="檢查碼"
                     ></VField>
                     <error-message
-                      name="checkNum"
+                      name="檢查碼"
                       class="invalid-feedback"
                     ></error-message>
                   </div>
@@ -239,6 +243,9 @@ import Swal from "sweetalert2";
 // import { mapActions } from "pinia";
 // import order from "@/stores/order";
 
+import { mapActions } from "pinia";
+import cartStore from "@/stores/cartStore";
+
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
@@ -266,6 +273,11 @@ export default {
           Swal.fire(err.response.data.message);
         });
     },
+    ischeckNum(value) {
+      const checkNumber = /^[0-9]{3}$/;
+      return checkNumber.test(value) ? true : "請輸入正確的檢查碼";
+    },
+    ...mapActions(cartStore, ["getCart"]),
     payOrder() {
       const url = `${VITE_URL}/api/${VITE_PATH}/pay/${this.orderId}`;
       console.log("payOrder", url);
@@ -273,6 +285,7 @@ export default {
         .post(url)
         .then(() => {
           this.getOrder();
+          this.getCart();
           Swal.fire("付款成功");
           this.$router.push("/checkoutSuccess");
         })
@@ -287,7 +300,6 @@ export default {
     // // 从路由参数中获取订单 ID
     this.orderId = this.$route.params.orderId;
     this.getOrder(); // 调用获取订单详情的方法
-    console.log(this.order);
     this.checked = localStorage.getItem("payment");
   },
 };

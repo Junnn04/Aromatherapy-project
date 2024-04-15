@@ -18,7 +18,7 @@
       </thead>
       <tbody>
         <tr v-for="item in orders" :key="item.id">
-          <td>{{ item.create_at }}</td>
+          <td>{{ formatDate(item.create_at) }}</td>
           <td><span v-text="item.user.name" v-if="item.user"></span></td>
           <td>
             <ul class="list-unstyled">
@@ -135,6 +135,12 @@ export default {
         .catch((err) => {
           Swal.fire(err.response.data.message);
         });
+    },
+    formatDate(timestamp) {
+      // 創建日期對象
+      const date = new Date(timestamp * 1000);
+      // 返回格式化後的日期字符串，根據需要使用不同的日期格式
+      return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
     },
     // 打開新增視窗
     openModal(isNew, item) {
