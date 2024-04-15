@@ -2,7 +2,6 @@
   <loading
     v-model:active="isLoading"
     :can-cancel="true"
-    :on-cancel="onCancel"
     :is-full-page="fullPage"
     loader="dots"
   >
@@ -26,8 +25,29 @@
   </div>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="text-center">
-        <table class="table table-hover align-middle mt-4">
+      <div class="text-center col-md-9">
+        <div class="mt-4">
+          <div class="row mb-3" v-for="item in articles" :key="item.id">
+            <div class="col-md-3">
+              <img
+                :src="item.imageUrl"
+                :alt="item.title"
+                style="max-width: 100%"
+              />
+            </div>
+            <div class="col-md-9 pt-4 d-flex align-items-center">
+              <a
+                style="color: #4e342e; cursor: pointer"
+                class="text-decoration-none h2 d-block text-start"
+                @click.prevent="getArticle(item.id)"
+              >
+                {{ item.title }}
+                <p class="h6 pt-3">作者 / {{ item.author }}</p>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- <table class="table table-hover align-middle mt-4">
           <tbody>
             <tr v-for="item in articles" :key="item.id">
               <td>
@@ -44,38 +64,9 @@
                   @click.prevent="getArticle(item.id)"
                 >
                   {{ item.title }}
-                  <p>作者 / {{ item.author }}</p></a
+                  <p>{{ item.author }}</p></a
                 >
               </td>
-            </tr>
-          </tbody>
-        </table>
-        <!-- <table class="table table-hover align-middle mt-4">
-          <thead>
-            <tr class="table-success" style="background-color: #7fa185">
-              <th width="80">序列</th>
-              <th>標題</th>
-              <th>內容描述</th>
-              <th>作者</th>
-              <th class="d-none d-xl-block">建立時間</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(item, index) in articles" :key="item.id">
-              <td>{{ index + 1 }}</td>
-              <td style="text-align: left; cursor: pointer">
-                <a
-                  style="color: #4e342e"
-                  class="text-decoration-none"
-                  @click.prevent="getArticle(item.id)"
-                  >{{ item.title }}</a
-                >
-              </td>
-              <td style="text-align: left">
-                {{ item.description }}
-              </td>
-              <td>{{ item.author }}</td>
-              <td class="d-none d-xl-block">{{ item.create_at }}</td>
             </tr>
           </tbody>
         </table> -->
@@ -110,6 +101,8 @@ import Swal from "sweetalert2";
 import loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/css/index.css";
 
+import pagination from "../../components/ArticlesPagination.vue";
+
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
@@ -117,6 +110,7 @@ export default {
     return {
       articles: [],
       article: [],
+      pages: {},
       isLoading: false,
       fullPage: true,
     };
@@ -158,6 +152,7 @@ export default {
   },
   components: {
     loading,
+    pagination,
   },
 };
 </script>

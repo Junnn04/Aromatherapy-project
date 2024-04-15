@@ -178,23 +178,22 @@
         <div class="swiper-container mt-4 mb-5">
           <div class="swiper-wrapper">
             <swiper
-              ref="{swiperRef}"
               :slidesPerView="3"
               :spaceBetween="30"
               :pagination="{
-                type: 'fraction',
+                clickable: true,
               }"
-              :navigation="true"
               :modules="modules"
+              class="mySwiper"
             >
               <swiper-slide v-for="item in products" :key="item.id">
-                <div class="swiper-slide">
-                  <div
-                    class="card border-0 mb-4 position-relative position-relative"
-                  >
-                    <RouterLink
-                      class="text-decoration-none"
-                      :to="`/product/${item.id}`"
+                <RouterLink
+                  class="text-decoration-none"
+                  :to="`/product/${item.id}`"
+                >
+                  <div class="swiper-slide">
+                    <div
+                      class="card border-0 mb-4 position-relative position-relative"
                     >
                       <img
                         :src="item.imageUrl"
@@ -205,18 +204,20 @@
                         <h4 class="mb-0 mt-3 fw-bold" style="color: #4e342e">
                           {{ item.title }}
                         </h4>
-                        <p class="card-text mb-0 text-primary-emphasis">
-                          NT${{ item.price }}
-                        </p>
-                        <p class="text-muted">
-                          <span class="text-muted">
-                            <del>NT${{ item.origin_price }}</del></span
+                        <p class="text-muted mb-0">
+                          <small
+                            ><span class="text-muted">
+                              <del>NT${{ item.origin_price }}</del></span
+                            ></small
                           >
                         </p>
+                        <p class="card-text text-primary-emphasis">
+                          NT${{ item.price }}
+                        </p>
                       </div>
-                    </RouterLink>
+                    </div>
                   </div>
-                </div></swiper-slide
+                </RouterLink></swiper-slide
               >
             </swiper>
           </div>
