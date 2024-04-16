@@ -8,7 +8,7 @@
     <div class="row flex-row-reverse justify-content-center pb-5">
       <div class="col-md-4">
         <div class="border p-4 mb-4">
-          <div class="d-flex" v-for="item in order" :key="item.id">
+          <div class="d-flex pt-2" v-for="item in order" :key="item.id">
             <img
               :src="item.product.imageUrl"
               alt="商品圖片"
@@ -23,24 +23,20 @@
               <p class="mb-0 fw-bold">x{{ item.qty }}</p>
             </div>
           </div>
-          <table
-            class="table mt-4 border-top border-bottom text-muted"
-            v-for="item in order"
-            :key="item.id"
-          >
+          <table class="table mt-4 border-top border-bottom text-muted">
             <tbody>
               <tr>
                 <th scope="row" class="border-0 px-0 pt-4 font-weight-normal">
                   小計
                 </th>
-                <td class="text-end border-0 px-0 pt-4">NT${{ item.total }}</td>
+                <td class="text-end border-0 px-0 pt-4">NT${{ this.total }}</td>
               </tr>
               <tr>
                 <th scope="row" class="border-0 px-0 pt-4 font-weight-normal">
                   折扣
                 </th>
                 <td class="text-end border-0 px-0 pt-4">
-                  NT${{ item.final_total - item.total }}
+                  NT${{ Math.round(this.final_total - this.total) }}
                 </td>
               </tr>
               <tr>
@@ -56,13 +52,9 @@
               </tr>
             </tbody>
           </table>
-          <div
-            class="d-flex justify-content-between mt-4"
-            v-for="item in order"
-            :key="item.id"
-          >
+          <div class="d-flex justify-content-between mt-4">
             <p class="mb-0 h4 fw-bold">結帳金額</p>
-            <p class="mb-0 h4 fw-bold">NT${{ item.final_total }}</p>
+            <p class="mb-0 h4 fw-bold">NT${{ Math.round(this.final_total) }}</p>
           </div>
         </div>
       </div>
@@ -240,39 +232,28 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-// import { mapActions } from "pinia";
-// import order from "@/stores/order";
-
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
 import cartStore from "@/stores/cartStore";
+import order from "@/stores/order";
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
   data() {
     return {
-      // orderId: "",
-      order: [],
       form: {
         is_paid: false,
       },
       checked: "",
     };
   },
+  computed: {
+    ...mapState(cartStore, ["final_total"]),
+    ...mapState(cartStore, ["total"]),
+    ...mapState(order, ["order"]),
+  },
   methods: {
-    // ...mapActions(order, ["getOrder"]),
-    getOrder() {
-      const url = `${VITE_URL}/api/${VITE_PATH}/order/${this.orderId}`;
-      axios
-        .get(url)
-        .then((res) => {
-          this.order = res.data.order.products;
-          console.log(this.order);
-        })
-        .catch((err) => {
-          Swal.fire(err.response.data.message);
-        });
-    },
+    ...mapActions(order, ["getOrder"]),
     ischeckNum(value) {
       const checkNumber = /^[0-9]{3}$/;
       return checkNumber.test(value) ? true : "請輸入正確的檢查碼";
@@ -280,7 +261,6 @@ export default {
     ...mapActions(cartStore, ["getCart"]),
     payOrder() {
       const url = `${VITE_URL}/api/${VITE_PATH}/pay/${this.orderId}`;
-      console.log("payOrder", url);
       axios
         .post(url)
         .then(() => {
@@ -295,8 +275,6 @@ export default {
     },
   },
   created() {
-    // const orderStore = useStore(order);
-    // this.orderId = orderStore.orderId;
     // // 从路由参数中获取订单 ID
     this.orderId = this.$route.params.orderId;
     this.getOrder(); // 调用获取订单详情的方法

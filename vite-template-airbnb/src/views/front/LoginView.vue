@@ -65,7 +65,6 @@ export default {
           // 寫入cookie
           document.cookie = `hexToken=${token};expires=${new Date(expired)}; path=/`;
           this.$router.push("/admin/products");
-          // window.location = 'products.html';
         })
         .catch((err) => {
           Swal.fire(err.response.data.message);

@@ -30,7 +30,6 @@
                 <label for="ContactPhone" class="text-muted mb-0 form-label"
                   >訂購人電話</label
                 >
-                <!-- rules="required|min:10|max:10" -->
                 <VField
                   type="tel"
                   class="form-control rounded-0"
@@ -290,19 +289,6 @@ export default {
           Swal.fire(err.response.data.message);
         });
     },
-    // createOrder() {
-    //   const url = `${VITE_URL}/api/${VITE_PATH}/order`;
-    //   const order = this.form;
-    //   axios
-    //     .post(url, { data: order })
-    //     .then((res) => {
-    //       this.$router.push(`/Checkout/${res.data.orderId}`);
-    //       this.$refs.form.resetForm();
-    //     })
-    //     .catch((err) => {
-    //       Swal.fire(err.response.data.message);
-    //     });
-    // },
     isPhone(value) {
       const phoneNumber = /^(09)[0-9]{8}$/;
       return phoneNumber.test(value) ? true : "請輸入正確的電話號碼";
@@ -341,7 +327,8 @@ export default {
   mounted() {
     this.getCart();
     // 在頁面加載時檢查 localStorage 中是否已經存儲了 email
-    this.form.user.email = localStorage.getItem("rememberEmail");
+    if (localStorage.getItem("rememberEmail"))
+      this.form.user.email = localStorage.getItem("rememberEmail");
   },
 };
 </script>

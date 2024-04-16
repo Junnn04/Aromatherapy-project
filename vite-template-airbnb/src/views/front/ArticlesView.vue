@@ -47,29 +47,6 @@
             </div>
           </div>
         </div>
-        <!-- <table class="table table-hover align-middle mt-4">
-          <tbody>
-            <tr v-for="item in articles" :key="item.id">
-              <td>
-                <img
-                  :src="item.imageUrl"
-                  :alt="item.title"
-                  style="max-width: 200px"
-                />
-              </td>
-              <td style="text-align: left; cursor: pointer">
-                <a
-                  style="color: #4e342e"
-                  class="text-decoration-none h2 d-block text-start"
-                  @click.prevent="getArticle(item.id)"
-                >
-                  {{ item.title }}
-                  <p>{{ item.author }}</p></a
-                >
-              </td>
-            </tr>
-          </tbody>
-        </table> -->
         <!-- 分頁 -->
         <pagination :pages="pages" :get-article="getArticle"></pagination>
       </div>

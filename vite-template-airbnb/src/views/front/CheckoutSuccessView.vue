@@ -50,39 +50,17 @@
                         <p class="mb-0">x{{ item.qty }}</p>
                       </div>
                       <div class="d-flex justify-content-between mt-auto">
-                        <p class="text-muted mb-0">
-                          <small>NT${{ item.product.price }}</small>
+                        <p class="text-muted mb-0"></p>
+                        <p class="mb-0">
+                          NT${{ Math.round(item.final_total) }}
                         </p>
-                        <p class="mb-0">NT${{ item.total }}</p>
                       </div>
                     </div>
                   </div>
                 </li>
                 <li class="list-group-item px-0 pb-0">
                   <table class="table text-muted">
-                    <tbody v-for="item in order" :key="item.id">
-                      <tr>
-                        <th
-                          scope="row"
-                          class="border-0 px-0 font-weight-normal"
-                        >
-                          小計
-                        </th>
-                        <td class="text-end border-0 px-0">
-                          NT${{ item.total }}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th
-                          scope="row"
-                          class="border-0 px-0 font-weight-normal"
-                        >
-                          折扣
-                        </th>
-                        <td class="text-end border-0 px-0">
-                          NT${{ item.final_total - item.total }}
-                        </td>
-                      </tr>
+                    <tbody>
                       <tr>
                         <th
                           scope="row"
@@ -96,13 +74,11 @@
                       </tr>
                     </tbody>
                   </table>
-                  <div
-                    class="d-flex justify-content-between mt-2"
-                    v-for="item in order"
-                    :key="item.id"
-                  >
+                  <div class="d-flex justify-content-between mt-2">
                     <p class="mb-0 h4 fw-bold">結帳金額</p>
-                    <p class="mb-0 h4 fw-bold">NT${{ item.final_total }}</p>
+                    <p class="mb-0 h4 fw-bold">
+                      NT${{ Math.round(this.total) }}
+                    </p>
                   </div>
                 </li>
               </ul>
@@ -115,47 +91,26 @@
 </template>
 
 <script>
-// import axios from "axios";
-// import Swal from "sweetalert2";
-
-// const { VITE_URL, VITE_PATH } = import.meta.env;
-
 import { mapActions, mapState } from "pinia";
 import order from "@/stores/order";
 
 export default {
   data() {
     return {
-      // orderId: "",
-      // order: [],
+      checked: "",
     };
   },
   computed: {
     ...mapState(order, ["order"]),
-    ...mapState(order, ["orderId"]),
+    ...mapState(order, ["total"]),
   },
   methods: {
     // 取得訂單資訊
     ...mapActions(order, ["getOrder"]),
-    // getOrder() {
-    //   console.log(this.orderId);
-    //   const url = `${VITE_URL}/api/${VITE_PATH}/order/${this.orderId}`;
-    //   axios
-    //     .get(url)
-    //     .then((res) => {
-    //       this.order = res.data.order.products;
-    //     })
-    //     .catch((err) => {
-    //       Swal.fire(err.response.data.message);
-    //     });
-    // },
   },
   mounted() {
     this.getOrder();
     this.checked = localStorage.getItem("payment");
-  },
-  created() {
-    this.orderId = this.$route.params.orderId; // 從路由取得訂單 id
   },
 };
 </script>

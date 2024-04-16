@@ -8,6 +8,7 @@ export default defineStore("order", {
   state: () => ({
     orderId: "",
     order: [],
+    total: 0,
   }),
   actions: {
     // 确认提交订单
@@ -32,6 +33,7 @@ export default defineStore("order", {
         .get(url)
         .then((res) => {
           this.order = res.data.order.products;
+          this.total = res.data.order.total;
         })
         .catch((err) => {
           Swal.fire(err.response.data.message);

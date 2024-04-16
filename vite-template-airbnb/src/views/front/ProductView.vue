@@ -219,19 +219,6 @@ export default {
         });
     },
     ...mapActions(cartStore, ["addToCart"]),
-    // addToCart(id) {
-    //   const order = {
-    //     product_id: id,
-    //     qty: 1,
-    //   };
-    //   axios.post(`${VITE_URL}/api/${VITE_PATH}/cart`, { data: order })
-    //     .then((response) => {
-    //       console.log(response);
-    //     })
-    //     .catch((err) => {
-    //       alert(err.message);
-    //     });
-    // },
   },
   mounted() {
     this.getProduct();

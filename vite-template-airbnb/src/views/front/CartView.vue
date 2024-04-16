@@ -253,7 +253,6 @@ export default {
   data() {
     return {
       products: [],
-      // carts: {},
       coupon_code: "",
       isLoading: false,
       fullPage: true,
@@ -272,21 +271,7 @@ export default {
   methods: {
     // 取得購物車列表
     ...mapActions(cartStore, ["getCart"]),
-    // getCart() {
-    //   // 參數預設值
-    //   this.isLoading = true;
-    //   const url = `${VITE_URL}/api/${VITE_PATH}/cart`;
-    //   axios
-    //     .get(url)
-    //     .then((response) => {
-    //       this.carts = response.data.data;
-    //       this.isLoading = false;
-    //     })
-    //     .catch((err) => {
-    //       Swal.fire(err.response.data.message);
-    //       this.isLoading = false;
-    //     });
-    // }, // 調整商品數量
+    // 調整商品數量
     changeCartQty(item, qty = 1) {
       const order = {
         product_id: item.product_id,
@@ -304,18 +289,6 @@ export default {
         });
     },
     ...mapActions(cartStore, ["removeCartItem"]),
-    // removeCartItem(id) {
-    //   // this.status.cartQtyLoading = id;
-    //   const url = `${VITE_URL}/api/${VITE_PATH}/cart/${id}`;
-    //   axios
-    //     .delete(url)
-    //     .then(() => {
-    //       this.getCart();
-    //     })
-    //     .catch((err) => {
-    //       Swal.fire(err.response.data.message);
-    //     });
-    // },
     addCouponCode() {
       const url = `${VITE_URL}/api/${VITE_PATH}/coupon`;
       const useCoupon = {
