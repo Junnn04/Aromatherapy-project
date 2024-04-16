@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <div class="text-end mt-4">
       <button
         class="btn btn-primary border-0"

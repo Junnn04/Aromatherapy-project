@@ -120,7 +120,7 @@
                 </div>
               </div>
             </div>
-            <div class="card rounded-0">
+            <!-- <div class="card rounded-0">
               <div
                 class="card-header bg-white border-0 py-3 collapsed"
                 id="headingTwo"
@@ -164,7 +164,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="card rounded-0">
               <div
                 class="card-header bg-white border-0 py-3 collapsed"
@@ -186,26 +186,7 @@
               >
                 <div class="card-body bg-light ps-5 py-4">
                   <div class="mb-2">
-                    <label for="Lorem ipsum1" class="text-muted mb-0"
-                      >Lorem ipsum</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="Lorem ipsum1"
-                      placeholder="Lorem ipsum"
-                    />
-                  </div>
-                  <div class="mb-0">
-                    <label for="Lorem ipsum2" class="text-muted mb-0"
-                      >Lorem ipsum</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="Lorem ipsum2"
-                      placeholder="Lorem ipsum"
-                    />
+                    <i class="bi bi-credit-card pe-3"></i> Apple Pay
                   </div>
                 </div>
               </div>
@@ -266,11 +247,17 @@ export default {
         .then(() => {
           this.getOrder();
           this.getCart();
-          Swal.fire("付款成功");
+          Swal.fire({
+            title: "付款成功",
+            confirmButtonColor: "#7fa185",
+          });
           this.$router.push("/checkoutSuccess");
         })
         .catch((err) => {
-          Swal.fire(err.response.data.message);
+          Swal.fire({
+            title: err.response.data.message,
+            confirmButtonColor: "#7fa185",
+          });
         });
     },
   },

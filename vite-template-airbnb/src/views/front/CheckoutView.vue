@@ -271,7 +271,10 @@ export default {
           this.carts = response.data.data;
         })
         .catch((err) => {
-          Swal.fire(err.response.data.message);
+          Swal.fire({
+            title: err.response.data.message,
+            confirmButtonColor: "#7fa185",
+          });
         });
     },
     // 確認提交訂單
@@ -286,7 +289,10 @@ export default {
         })
         .catch((err) => {
           // 处理错误情况
-          Swal.fire(err.response.data.message);
+          Swal.fire({
+            title: err.response.data.message,
+            confirmButtonColor: "#7fa185",
+          });
         });
     },
     isPhone(value) {

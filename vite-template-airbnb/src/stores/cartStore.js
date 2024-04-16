@@ -40,11 +40,17 @@ export default defineStore("cartStore", {
       axios
         .post(`${VITE_URL}/api/${VITE_PATH}/cart`, { data: order })
         .then(() => {
-          Swal.fire("已將商品添加進購物車");
+          Swal.fire({
+            confirmButtonColor: "#7fa185",
+            title: "已將商品添加進購物車",
+          });
           this.getCart();
         })
         .catch((err) => {
-          Swal.fire(err.response.data.message);
+          Swal.fire({
+            title: err.response.data.message,
+            confirmButtonColor: "#7fa185",
+          });
         });
     },
     removeCartItem(id) {
@@ -52,6 +58,7 @@ export default defineStore("cartStore", {
         title: "確定要從購物車中移除此商品嗎？",
         icon: "warning",
         showCancelButton: true,
+        confirmButtonColor: "#7fa185",
         confirmButtonText: "確認",
         cancelButtonText: "取消",
       }).then((result) => {
@@ -60,11 +67,17 @@ export default defineStore("cartStore", {
           axios
             .delete(url)
             .then((res) => {
-              Swal.fire(res.data.message);
+              Swal.fire({
+                title: res.data.message,
+                confirmButtonColor: "#7fa185",
+              });
               this.getCart();
             })
             .catch((err) => {
-              Swal.fire(err.response.data.message);
+              Swal.fire({
+                title: err.response.data.message,
+                confirmButtonColor: "#7fa185",
+              });
             });
         }
       });

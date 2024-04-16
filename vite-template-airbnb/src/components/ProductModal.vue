@@ -9,7 +9,7 @@
   >
     <div class="modal-dialog modal-xl">
       <div class="modal-content border-0">
-        <div class="modal-header bg-dark text-white">
+        <div class="modal-header text-white" style="background-color: #664939">
           <h5 id="productModalLabel" class="modal-title">
             <span v-if="isNew">新增產品</span>
             <span v-else>編輯產品</span>
@@ -189,7 +189,12 @@
           >
             取消
           </button>
-          <button type="button" class="btn btn-primary" @click="updateProduct">
+          <button
+            type="button"
+            class="btn btn-primary"
+            style="background-color: #7fa185"
+            @click="updateProduct"
+          >
             確認
           </button>
         </div>

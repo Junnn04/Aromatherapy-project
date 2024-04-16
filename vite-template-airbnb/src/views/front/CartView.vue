@@ -297,11 +297,17 @@ export default {
       axios
         .post(url, { data: useCoupon })
         .then((response) => {
-          Swal.fire(response.data.message);
+          Swal.fire({
+            title: response.data.message,
+            confirmButtonColor: "#7fa185",
+          });
           this.getCart();
         })
         .catch((err) => {
-          Swal.fire(err.response.data.message);
+          Swal.fire({
+            title: err.response.data.message,
+            confirmButtonColor: "#7fa185",
+          });
         });
     }, // swiper_取得產品列表
     getProducts() {
@@ -312,7 +318,10 @@ export default {
           this.products = response.data.products;
         })
         .catch((err) => {
-          Swal.fire(err.response.data.message);
+          Swal.fire({
+            title: err.response.data.message,
+            confirmButtonColor: "#7fa185",
+          });
         });
     },
   },

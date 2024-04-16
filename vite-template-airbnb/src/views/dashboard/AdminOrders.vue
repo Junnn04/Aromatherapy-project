@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <div class="text-end mt-4">
       <!-- <button class="btn btn-primary" @click="openModal('new')">
             建立新的訂單
@@ -35,32 +35,38 @@
           </td>
           <td>
             <div class="btn-group">
-              <!-- <button type="button" class="btn btn-outline-primary btn-sm"
-                   @click="openModal('edit',item)">
-                   檢視
-                  </button>
-                  <button type="button" class="btn btn-outline-danger btn-sm"
-                   @click="openModal('delete',item)">
-                    刪除
-                  </button> -->
+              <!-- <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                @click="openModal('edit', item)"
+              >
+                檢視
+              </button> -->
+              <button
+                type="button"
+                class="btn btn-outline-danger btn-sm"
+                @click="openModal('delete', item)"
+              >
+                刪除
+              </button>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
     <!-- 分頁 -->
-    <pagination :pages="pages" :get-order="getOrder"></pagination>
+    <pagination :pages="pages" :get-order="getOrders"></pagination>
   </div>
   <!-- Modal -->
-  <!-- <product-modal
-      :temp-coupons="tempCoupons"
-      :update-coupons="updateCoupons"
-      ref="pModal"
-      ></product-modal> -->
+  <!-- <order-modal
+    :temp-order="tempOrder"
+    :update-order="updateOrder"
+    ref="pModal"
+  ></order-modal> -->
 
   <div
-    id="delProductModal"
-    ref="delProductModal"
+    id="delOrderModal"
+    ref="delOrderModal"
     class="modal fade"
     tabindex="-1"
     aria-labelledby="delProductModalLabel"
@@ -81,7 +87,7 @@
         </div>
         <div class="modal-body">
           是否刪除
-          <strong class="text-danger">{{ tempCoupons.title }}</strong>
+          <strong class="text-danger">{{ orders.create_at }}</strong>
           商品(刪除後將無法恢復)。
         </div>
         <div class="modal-footer">
@@ -92,7 +98,7 @@
           >
             取消
           </button>
-          <button type="button" class="btn btn-danger" @click="delCoupons">
+          <button type="button" class="btn btn-danger" @click="delOrder">
             確認刪除
           </button>
         </div>
@@ -107,6 +113,7 @@ import { Modal } from "bootstrap";
 import Swal from "sweetalert2";
 
 import pagination from "../../components/OrderPagination.vue";
+// import orderModal from "../../components/OrderModal.vue";
 
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
@@ -114,7 +121,7 @@ export default {
   data() {
     return {
       orders: [],
-      tempCoupons: {},
+      tempOrder: {},
       pages: {},
       modalProduct: null,
       modalDel: null,
@@ -123,7 +130,7 @@ export default {
   },
   methods: {
     // 取得產品列表
-    getOrder(page = 1) {
+    getOrders(page = 1) {
       // 參數預設值
       const url = `${VITE_URL}/api/${VITE_PATH}/admin/orders?page=${page}`;
       axios
@@ -147,7 +154,7 @@ export default {
       // 判斷為新增時
       if (isNew === "new") {
         // 清空當前tempProduct值
-        this.tempCoupons = {
+        this.tempOrder = {
           due_date: new Date().getTime() / 1000,
         };
         // 變更isNew值
@@ -156,42 +163,42 @@ export default {
         // this.modalProduct.show();
       } else if (isNew === "edit") {
         // 將當前資料傳入tempProduct值
-        this.tempCoupons = { ...item };
+        this.tempOrder = { ...item };
         this.isNew = false;
         // this.modalProduct.show();
         this.$refs.pModal.openModal();
       } else if (isNew === "delete") {
         // 將當前資料傳入tempProduct值，為了取得id
-        this.tempCoupons = { ...item };
+        this.tempOrder = { ...item };
         // 開起delProductsModal
         this.modalDel.show();
       }
     },
     // 打開編輯視窗
-    updateCoupons() {
-      let url = `${VITE_URL}/api/${VITE_PATH}/admin/coupon`;
+    updateOrder() {
+      let url = `${VITE_URL}/api/${VITE_PATH}/admin/Order`;
       let http = "post";
       // 判斷當前isNew是新增or編輯
       if (!this.isNew) {
-        url = `${VITE_URL}/api/${VITE_PATH}/admin/coupon/${this.tempCoupons.id}`;
+        url = `${VITE_URL}/api/${VITE_PATH}/admin/Order/${this.tempOrder.id}`;
         http = "put";
       }
 
-      axios[http](url, { data: this.tempCoupons })
+      axios[http](url, { data: this.tempOrder })
         .then((response) => {
           Swal.fire(response.data.message);
-          this.getCoupons();
+          this.getOrders();
           // this.modalProduct.hide();
           this.$refs.pModal.closeModal();
-          this.tempCoupons = {};
+          this.tempOrder = {};
         })
         .catch((err) => {
           Swal.fire(err.response.data.message);
         });
     },
-    delCoupons() {
+    delOrder() {
       // this.tempProduct.id取得產品id刪除資料
-      const url = `${this.apiUrl}/api/${this.apiPath}/admin/order/${this.tempCoupons.id}`;
+      const url = `${VITE_URL}/api/${VITE_PATH}/admin/order/${this.tempOrder.id}`;
 
       axios
         .delete(url)
@@ -199,7 +206,7 @@ export default {
           Swal.fire(response.data.message);
           // 刪除後，須關閉Modal,並更新資料
           this.modalDel.hide();
-          this.getCoupons();
+          this.getOrders();
         })
         .catch((err) => {
           Swal.fire(err.response.data.message);
@@ -207,13 +214,13 @@ export default {
     },
   },
   mounted() {
-    this.getOrder();
+    this.getOrders();
     // 啟用productModal
-    this.modalDel = new Modal(this.$refs.delProductModal);
+    this.modalDel = new Modal(this.$refs.delOrderModal);
   },
   components: {
     pagination,
-    // productModal,
+    // orderModal,
   },
 };
 </script>

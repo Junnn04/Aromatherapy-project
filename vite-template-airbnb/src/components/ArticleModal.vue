@@ -35,47 +35,7 @@
                 />
                 <img class="img-fluid" :src="tempArticle.imageUrl" />
               </div>
-              <div class="mb-3">
-                <div v-if="Array.isArray(tempArticle.tag)">
-                  <div
-                    class="mb-1"
-                    v-for="(tag, key) in editArticle.tag"
-                    :key="key"
-                  >
-                    <label for="tag" class="form-label">輸入標記</label>
-                    <input
-                      id="tag"
-                      type="text"
-                      class="form-control"
-                      placeholder="請輸入標記"
-                      v-model="editArticle.tag"
-                    />
-                  </div>
-                </div>
-                <div
-                  v-if="
-                    !tempArticle.tag.length ||
-                    tempArticle.tag[tempArticle.tag.length - 1]
-                  "
-                >
-                  <button
-                    class="btn btn-outline-primary btn-sm d-block w-100"
-                    @click="editArticle.tag.push('')"
-                  >
-                    新增標記
-                  </button>
-                </div>
-                <div v-else>
-                  <button
-                    class="btn btn-outline-danger btn-sm d-block w-100"
-                    @click="editArticle.tag.pop()"
-                  >
-                    刪除圖片
-                  </button>
-                </div>
-              </div>
             </div>
-            <pre>{{ tempArticle }}</pre>
             <div class="col-sm-8">
               <div class="mb-3">
                 <label for="title" class="form-label">標題</label>
@@ -108,8 +68,7 @@
                     type="date"
                     class="form-control"
                     placeholder="文章建立日期"
-                    v-model="selectedDate"
-                    @change="convertToTimestamp"
+                    v-model="create_at"
                   />
                 </div>
               </div>
@@ -177,9 +136,9 @@ export default {
     return {
       modalArticle: null,
       editArticle: {
-        content: "",
-        create_at: "",
+        // create_at: "",
       },
+      create_at: "",
       selectedDate: "",
       editor: ClassicEditor,
       editorConfig: { extraPlugins: [] },
@@ -189,18 +148,13 @@ export default {
     tempArticle() {
       this.editArticle = this.tempArticle;
       // 將時間格式改為 YYYY-MM-DD
-      // const date = new Date(this.editArticle.create_at * 1000)
-      //   .toISOString()
-      //   .split("T");
-      // [this.create_at] = date;
+      const date = new Date(this.editArticle.create_at * 1000)
+        .toISOString()
+        .split("T");
+      [this.create_at] = date;
     },
     create_at() {
-      // this.editArticle.create_at = Math.floor(new Date(this.create_at) / 1000);
-    },
-    selectedDate() {
-      this.editArticle.create_at = Math.floor(
-        new Date(this.selectedDate) / 1000,
-      );
+      this.editArticle.create_at = Math.floor(new Date(this.create_at) / 1000);
     },
   },
   methods: {
@@ -210,11 +164,6 @@ export default {
     closeModal() {
       this.modalArticle.hide();
     },
-    // convertToTimestamp() {
-    //   this.editArticle.create_at = Math.floor(
-    //     new Date(this.selectedDate) / 1000,
-    //   );
-    // },
   },
   mounted() {
     this.modalArticle = new Modal(this.$refs.articleModal);
