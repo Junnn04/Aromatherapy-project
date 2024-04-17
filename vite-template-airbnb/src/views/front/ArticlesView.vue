@@ -27,24 +27,26 @@
     <div class="row justify-content-center">
       <div class="text-center col-md-9">
         <div class="mt-4">
-          <div class="row mb-3" v-for="item in articles" :key="item.id">
-            <div class="col-md-3">
-              <img
-                :src="item.imageUrl"
-                :alt="item.title"
-                style="max-width: 100%"
-              />
-            </div>
-            <div class="col-md-9 pt-4 d-flex align-items-center">
-              <a
-                style="color: #4e342e; cursor: pointer"
-                class="text-decoration-none h2 d-block text-start"
-                @click.prevent="getArticle(item.id)"
-              >
-                {{ item.title }}
-                <p class="h6 pt-3">作者 / {{ item.author }}</p>
-              </a>
-            </div>
+          <div class="row mb-3 link" v-for="item in articles" :key="item.id">
+            <a
+              style="color: #4e342e; cursor: pointer"
+              class="text-decoration-none h2 d-block text-start"
+              @click.prevent="getArticle(item.id)"
+            >
+              <div class="row">
+                <div class="col-md-3">
+                  <img
+                    :src="item.imageUrl"
+                    :alt="item.title"
+                    style="max-width: 100%"
+                  />
+                </div>
+                <div class="col-md-9 pt-5 align-items-center">
+                  {{ item.title }}
+                  <p class="h6 pt-3">作者 / {{ item.author }}</p>
+                </div>
+              </div></a
+            >
           </div>
         </div>
         <!-- 分頁 -->
@@ -54,7 +56,7 @@
     <div class="row justify-content-center py-5">
       <div class="col-md-8">
         <strong
-          ><h3 class="text-center" style="color: #4e342e">
+          ><h3 class="text-center" style="color: #4e342e" ref="content">
             {{ article.title }}
           </h3></strong
         >
@@ -117,6 +119,15 @@ export default {
         .then((response) => {
           this.article = response.data.article;
           this.isLoading = false;
+          // 获取文章内容元素的位置信息
+          const contentElement = this.$refs.content;
+          const contentOffsetTop = contentElement.offsetTop;
+
+          // 使用原生JavaScript实现滚动到指定位置
+          window.scrollTo({
+            top: contentOffsetTop,
+            behavior: "smooth", // 平滑滚动
+          });
         })
         .catch((err) => {
           Swal.fire(err.response.data.message);
@@ -133,3 +144,10 @@ export default {
   },
 };
 </script>
+
+<style>
+/* 自定义Hover效果 */
+.link:hover {
+  background: #cfcdcd;
+}
+</style>

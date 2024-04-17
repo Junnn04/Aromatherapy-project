@@ -85,7 +85,11 @@
       </div>
       <div class="col-md-8">
         <div class="row">
-          <div class="col-md-6" v-for="item in products" :key="item.id">
+          <div
+            class="col-md-6 product-card"
+            v-for="item in products"
+            :key="item.id"
+          >
             <RouterLink
               :class="{ active: item === item.id }"
               class="text-decoration-none"
@@ -186,3 +190,11 @@ export default {
   },
 };
 </script>
+
+<style>
+/* 自定义Hover效果 */
+.product-card:hover {
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+  transform: translateY(-10px); /* 向上移动5像素 */
+}
+</style>
