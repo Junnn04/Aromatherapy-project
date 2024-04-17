@@ -53,21 +53,27 @@
         <pagination :pages="pages" :get-article="getArticle"></pagination>
       </div>
     </div>
-    <div class="row justify-content-center py-5">
-      <div class="col-md-8">
+    <div class="row justify-content-center pt-5" ref="content">
+      <div class="col-md-8" v-if="Object.keys(article).length > 0">
         <strong
-          ><h3 class="text-center" style="color: #4e342e" ref="content">
+          ><h2 class="text-center pb-3 border-bottom" style="color: #4e342e">
             {{ article.title }}
-          </h3></strong
+          </h2></strong
+        >
+        <img
+          class="img-fluid img-thumbnail mx-auto d-block w-80 mt-3"
+          style="max-height: 30%"
+          :src="article.imageUrl"
+          :alt="article.title"
+        />
+        <small
+          ><p class="mt-5 text-end">作者 / {{ article.author }}</p></small
         >
         <small
-          ><p class="mt-5 text-end">{{ article.author }}</p></small
+          ><p class="text-end">{{ formatDate(article.create_at) }}</p></small
         >
-        <!-- <small
-          ><p class="text-end">{{ article.create_at }}</p></small
-        > -->
         <img :src="article.image" />
-        <p class="my-5" v-html="article.content"></p>
+        <p v-html="article.content"></p>
       </div>
     </div>
   </div>
@@ -133,6 +139,12 @@ export default {
           Swal.fire(err.response.data.message);
           this.isLoading = false;
         });
+    },
+    formatDate(timestamp) {
+      // 創建日期對象
+      const date = new Date(timestamp * 1000);
+      // 返回格式化後的日期字符串，根據需要使用不同的日期格式
+      return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
     },
   },
   mounted() {
