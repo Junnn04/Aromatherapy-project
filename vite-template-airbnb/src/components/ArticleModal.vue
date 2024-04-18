@@ -87,9 +87,10 @@
                 <label for="description" class="form-label">文章內容</label>
                 <Ckeditor
                   :editor="editor"
-                  v-model="editArticle.content"
                   :config="editorConfig"
+                  v-model="editArticle.content"
                 ></Ckeditor>
+                <!-- <md-editor @change="handleMarkdownChange" /> -->
               </div>
               <div class="mb-3">
                 <div class="form-check">
@@ -129,6 +130,13 @@ import { Modal } from "bootstrap";
 
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+// import { CKFinder } from "@ckeditor/ckeditor5-ckfinder";
+
+// import { defineComponent } from "vue";
+// import { MdEditor } from "md-editor-v3";
+// import "md-editor-v3/lib/style.css";
+
+// const { VITE_URL, VITE_PATH } = import.meta.env;
 
 export default {
   props: ["isNew", "tempArticle", "updateArticle"],
@@ -140,10 +148,36 @@ export default {
       },
       create_at: "",
       selectedDate: "",
+      text: "",
+      // markdownContent,
+      // handleMarkdownChange,
+      // renderedHtml,
       editor: ClassicEditor,
-      editorConfig: { extraPlugins: [] },
+      editorConfig: {
+        // plugins: [CKFinder],
+        ckfinder: {
+          uploadUrl: `https://example.com/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json`,
+          // 後端的上傳圖片 API 路徑
+          options: {
+            resourceType: "Images",
+            // 限定類型為圖片
+          },
+        },
+      },
     };
   },
+  // setup() {
+  //   const markdownContent = ref("");
+
+  //   const handleMarkdownChange = (markdown) => {
+  //     markdownContent.value = markdown;
+  //   };
+
+  //   const renderedHtml = computed(() => {
+  //     // 將 Markdown 轉換成 HTML
+  //     return marked(markdownContent.value);
+  //   });
+  // },
   watch: {
     tempArticle() {
       this.editArticle = this.tempArticle;
@@ -171,6 +205,7 @@ export default {
   },
   components: {
     Ckeditor: CKEditor.component,
+    // MdEditor,
   },
 };
 </script>

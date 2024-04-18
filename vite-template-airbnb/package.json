@@ -10,7 +10,11 @@
     "deploy": "vite build && gh-pages -d dist"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-adapter-ckfinder": "^41.3.1",
     "@ckeditor/ckeditor5-build-classic": "^41.2.1",
+    "@ckeditor/ckeditor5-ckfinder": "^41.3.1",
+    "@ckeditor/ckeditor5-core": "^41.3.1",
+    "@ckeditor/ckeditor5-ui": "^41.3.1",
     "@ckeditor/ckeditor5-vue": "^5.1.0",
     "@vee-validate/i18n": "^4.12.6",
     "@vee-validate/rules": "^4.12.6",
@@ -19,6 +23,7 @@
     "bootstrap-icons": "^1.11.3",
     "bootstrap-vue-next": "^0.16.6",
     "dotenv": "^16.3.1",
+    "md-editor-v3": "^4.13.2",
     "pinia": "^2.1.7",
     "sweetalert2": "^11.10.6",
     "swiper": "^11.0.7",
